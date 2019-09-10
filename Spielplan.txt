@@ -1,0 +1,36 @@
+﻿Feld
+	- Größe (ungerade x ungerade)
+	- unbenutzbare Felder
+	- Felder nur für den König
+	- Felder zum Gewinnen (meist an den Ecken)
+	- symetrisch
+	
+Spielfigur (normal)
+	- bewegung
+	- schlagen (2 gegenüber)
+
+Spielfigur (König)
+	- extends Spielfigur (normal)
+	- geschlagen (alle 4 Seiten)
+	- (benutzung besondere Felder)
+	
+Klassen:
+	- Spielfigur (Abstract?)
+	- Bauer extends Spielfigur
+	- König extends Spielfigur
+	- Feld
+	- Controller
+
+Klasse Spielfigur
+	- position
+	- active?
+	- 
+
+Klasse Feld
+	- feldArray
+	- figuren
+
+Klasse Controller
+	- runde
+	- currentTurn
+	
