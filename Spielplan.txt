@@ -1,9 +1,12 @@
-﻿Feld
+﻿SpielFeld
 	- Größe (ungerade x ungerade)
-	- unbenutzbare Felder
-	- Felder nur für den König
+	- Felder (Klasse)
 	- Felder zum Gewinnen (meist an den Ecken)
 	- symetrisch
+	
+Feld
+	- Art (normal, spezial, deaktiviert)
+	- aktuelles Objekt
 	
 Spielfigur (normal)
 	- bewegung
@@ -19,6 +22,7 @@ Klassen:
 	- Bauer extends Spielfigur
 	- König extends Spielfigur
 	- Feld
+	- SpielFeld
 	- Controller
 
 Klasse Spielfigur
