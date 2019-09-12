@@ -3,6 +3,7 @@
 	- Felder (Klasse)
 	- Felder zum Gewinnen (meist an den Ecken)
 	- symetrisch
+	- wird vom Controller erzeugt
 	
 Feld
 	- Art (normal, spezial, deaktiviert)
@@ -26,15 +27,18 @@ Klassen:
 	- Controller
 
 Klasse Spielfigur
-	- position
+	- verweis auf feld
 	- active?
 	- 
 
 Klasse Feld
 	- feldArray
-	- figuren
+	- verweis auf figur
 
 Klasse Controller
 	- runde
 	- currentTurn
+	- legt größe spielfeld fest
+	- erstellt das spielfeld (brett, figuren etc.)
+	
 	
