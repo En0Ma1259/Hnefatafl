@@ -9,9 +9,11 @@ public class Field {
 	
 	protected Figure object;
 	
-	protected int x;
+	// need to be protected
+	public int x;
 	
-	protected int y;
+	// need to be protected
+	public int y;
 	
 	public Field(int x, int y){
 		this.x = x;
@@ -20,5 +22,17 @@ public class Field {
 	
 	public void setType(Types type){
 		this.type = type; 
+	}
+	
+	public boolean isSet(){
+		return this.object != null;
+	}
+	
+	public void setFigure(Figure figure){
+		this.object = figure;
+	}
+	
+	public Figure getFigure(Figure figure){
+		return this.object;
 	}
 }

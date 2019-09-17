@@ -16,7 +16,9 @@ public class GameBoard {
 				}
 			}
 		}
-		// fill board here
-		// 0,0| 0,size | size,size | size, 0 | middle spezial Field
+	}
+	
+	public Field getField(int x, int y){
+		return board[x][y];
 	}
 }
