@@ -14,7 +14,7 @@ public class Field {
 	protected int y;
 	
 	public Field(int x, int y){
-		this.x = y;
+		this.x = x;
 		this.y = y;
 	}
 	
