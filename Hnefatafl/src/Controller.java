@@ -28,6 +28,34 @@ public class Controller {
 		board = new GameBoard(size);
 	}
 	
+	public void printGameBoard() {
+
+		System.out.println("");
+		for(int i=0;i<size;++i){
+			for(int j=0;j<size;++j){
+				if( board.getField(i,j).getFigure()!=null ) {
+					if(board.getField(i,j).getFigure() instanceof King) {
+						System.out.println("K\t");
+					}
+					else { //instanceof != King
+						if( board.getField(i,j).getFigure().isWhite==true ) {
+							System.out.print("W\t");	
+						}
+						else //isWhite==false
+						{
+							System.out.print("S\t");	
+						}
+					}
+				}
+				else {
+					System.out.print("0\t");	
+				}
+			}
+			System.out.print("\n");
+		}
+		System.out.println("");
+	}
+	
 	public void movement(){
 		Field selectedField = this.selectFigure();
 		List<Field> possibleFields = this.possibleMovement(selectedField);
