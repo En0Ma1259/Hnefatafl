@@ -26,6 +26,8 @@ public class Controller {
 	public void generateBoard(int size){
 		this.size = size;
 		board = new GameBoard(size);
+		
+		movement();
 	}
 	
 	public void printGameBoard() {

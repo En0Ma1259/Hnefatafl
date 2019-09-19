@@ -7,7 +7,7 @@ public class GameBoard {
 		board = new Field[size][size];
 		for(int i = 0; i < size; i++){
 			for(int j = 0; j < size; j++){
-				board[i][j] = new Field(i,j);
+				board[i][j] = new Field(j,i);
 				 
 				if((i == 0 && j == 0) || (i == 0 && j == size-1) || (i == size-1 && j == 0) || (i == size-1 && j == size-1) || (i == (size/2) && j == (size/2))){
 					board[i][j].setType(Field.Types.SPEZIAL);
