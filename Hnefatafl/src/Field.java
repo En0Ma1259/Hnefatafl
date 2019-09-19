@@ -32,7 +32,7 @@ public class Field {
 		this.object = figure;
 	}
 	
-	public Figure getFigure(Figure figure){
+	public Figure getFigure(){
 		return this.object;
 	}
 }
