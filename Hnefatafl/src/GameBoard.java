@@ -16,9 +16,11 @@ public class GameBoard {
 				}
 			}
 		}
+		
+		//board[1][2].setFigure(new Figure());
 	}
 	
 	public Field getField(int x, int y){
-		return board[x][y];
+		return board[y][x];
 	}
 }
