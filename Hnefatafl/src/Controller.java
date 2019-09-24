@@ -31,26 +31,27 @@ public class Controller {
 	}
 	
 	public void printGameBoard() {
-
-		System.out.println("");
+		System.out.println("Ausgabe:");
 		for(int i=0;i<size;++i){
 			for(int j=0;j<size;++j){
-				if( board.getField(i,j).getFigure()!=null ) {
-					if(board.getField(i,j).getFigure() instanceof King) {
-						System.out.println("K\t");
+				if ( board.getField(i, j).getFigure()!=null )
+				{
+					if ( board.getField(i, j).getFigure() instanceof King )
+					{
+						System.out.print("K\t");
 					}
-					else { //instanceof != King
-						if( board.getField(i,j).getFigure().isWhite==true ) {
-							System.out.print("W\t");	
-						}
-						else //isWhite==false
-						{
-							System.out.print("S\t");	
-						}
+					if ( board.getField(i, j).getFigure().isWhite==true
+						&& !(board.getField(i, j).getFigure() instanceof King) )
+					{
+						System.out.print("W\t");
+					}
+					if ( board.getField(i, j).getFigure().isWhite==false )
+					{
+						System.out.print("B\t");
 					}
 				}
 				else {
-					System.out.print("0\t");	
+					System.out.print("0\t");
 				}
 			}
 			System.out.print("\n");
