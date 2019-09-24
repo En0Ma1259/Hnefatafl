@@ -60,34 +60,36 @@ public class Controller {
 	}
 	
 	public void movement(){
-		Field selectedField = this.selectFigure();
+		Scanner in = new Scanner(System.in);
+		Field selectedField = this.selectFigure(in);
 		List<Field> possibleFields = this.possibleMovement(selectedField);
 		
-		if(possibleFields.isEmpty()){
+		if(selectedField.isSet() && !possibleFields.isEmpty()){
+			Field destinationField = this.selectFigure(in);
+			
+			if(possibleFields.contains(destinationField)){
+				destinationField.setFigure(selectedField.getFigure());
+				selectedField.setFigure(null);
+			}
+		}else{
+			this.movement();
 		}
-		
-		this.destination();
-		
-	}
-	
-	protected Field selectFigure(){
-		Scanner in = new Scanner(System.in);
-		
-		System.out.println("Turn: " + turn);
-		System.out.println("X: ");
-        int x = Integer.parseInt(in.nextLine());
-        System.out.println("Y: ");
-    	int y = Integer.parseInt(in.nextLine());
+
     	in.close();
-    	
-    	return board.getField(x, y);
 	}
 	
-	protected void destination() {
-		// 2 User inputs for x and y
-		// Wert X:
-		// Wert Y:
-		// return Field;
+	protected Field selectFigure(Scanner in){
+		
+		Field field = null;
+		if(in.hasNextLine()){
+			System.out.println("X: ");
+	        int x = Integer.parseInt(in.nextLine());
+	        System.out.println("Y: ");
+	    	int y = Integer.parseInt(in.nextLine());
+	    	field = board.getField(x, y);
+		}
+    	
+    	return field;
 	}
 	
 	/**
@@ -113,7 +115,7 @@ public class Controller {
 			}
 		}
 		
-		// Y Valeus
+		// Y Values
 		// 0 is here Field y variable
 		for(int i = /* 0 to change */0; i >= 0; i--){
 			possibleField = board.getField(field.x, i);

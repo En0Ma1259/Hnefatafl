@@ -20,7 +20,7 @@ public class GameBoard {
 	}
 	
 	public Field getField(int x, int y){
-		return board[x][y];
+		return board[y][x];
 	}
 	
 	protected void setFigures(int size){

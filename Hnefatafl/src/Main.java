@@ -5,7 +5,6 @@ public class Main {
 		Controller controller = new Controller();
 		controller.generateBoard(5);
 		controller.printGameBoard();
-		
 	}
 
 }
