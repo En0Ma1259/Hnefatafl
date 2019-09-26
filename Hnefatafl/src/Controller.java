@@ -32,7 +32,14 @@ public class Controller {
 	
 	public void printGameBoard() {
 		System.out.println("Ausgabe:");
+		System.out.print("\t");
+		for (int c=0; c<size; c++)
+		{
+			System.out.print(c+"\t");
+		}
+		System.out.println("");
 		for(int i=0;i<size;++i){
+			System.out.print(i+"\t");
 			for(int j=0;j<size;++j){
 				if ( board.getField(i, j).getFigure()!=null )
 				{
@@ -51,7 +58,7 @@ public class Controller {
 					}
 				}
 				else {
-					System.out.print("0\t");
+					System.out.print("\t");
 				}
 			}
 			System.out.print("\n");
