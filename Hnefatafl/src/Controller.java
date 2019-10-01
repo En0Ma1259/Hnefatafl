@@ -17,24 +17,33 @@ public class Controller {
 	protected int size;
 	
 	protected GameBoard board; 
+	protected FigureLayout.t[][] boardPlan;
 	
 	/**
 	 * Gernerate game board (size x size).
 	 * 
 	 * @param size
 	 */
-	public void generateBoard(int size){
-		this.size = size;
-		board = new GameBoard(size);
-		
-		movement();
-	}
 
 	public void generateBoard(FigureLayout.t[][] boardPlan){
-		size = boardPlan.length;
+		this.boardPlan = boardPlan;
+		size = this.boardPlan.length;
 		board = new GameBoard(size);
-		
-		//movement();
+		setFigures();
+	}
+	
+	protected void setFigures(){
+		int size = boardPlan.length;
+		for(int i=0;i<size;++i){
+			for(int j=0;j<size;++j){
+				switch(boardPlan[i][j]){
+					case NONE: board.getField(i, j).setFigure(null); break;
+					case WHITE: board.getField(i, j).setFigure(new Figure(true));break;
+					case BLACK: board.getField(i, j).setFigure(new Figure(false));break;
+					case KING: board.getField(i, j).setFigure(new King());break;
+				}
+			}
+		}
 	}
 	
 	
