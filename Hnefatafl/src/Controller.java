@@ -30,6 +30,15 @@ public class Controller {
 		printGameBoard();
 		movement();
 	}
+
+	public void generateBoard(FigureLayout.t[][] boardPlan){
+		size = boardPlan.length;
+		board = new GameBoard(size);
+		
+		//movement();
+	}
+	
+	
 	
 	public void printGameBoard() {
 		System.out.println("Ausgabe:");
