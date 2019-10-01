@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,14 +14,16 @@ public class Controller {
 	 * Current round.
 	 */
 	protected int round = 0;
+	protected boolean isWhitesTurn;
 	
 	protected int size;
 	
 	protected GameBoard board; 
 	protected FigureLayout.t[][] boardPlan;
+	protected Scanner input = new Scanner(System.in);
 	
 	/**
-	 * Gernerate game board (size x size).
+	 * Gernerate game board (from FigureLayout).
 	 * 
 	 * @param size
 	 */
@@ -102,6 +105,48 @@ public class Controller {
 		}
 
     	in.close();
+	}
+	
+	public void movement2()
+	{
+		System.out.println("Wähle eine Figur aus: ");
+		Point point;
+		do
+		{
+		point = extractPoint(getInput());
+		}
+		while (point==null);
+	}
+	
+	public String getInput()
+	{
+		//macht was mit input
+		//formatiert input-Werte in String "(Zahl/Zahl) der zurückgegeben wird
+
+		return input.nextLine();
+	}
+	
+	public Point extractPoint(String input) {
+		int positionSlash = input.indexOf("/");
+		Point point;
+		try {
+		String Zeile = input.substring(0, positionSlash);
+		String Spalte = input.substring(positionSlash+1, input.length());
+		
+		point = new Point(Integer.parseInt(Zeile), Integer.parseInt(Spalte));
+		}
+		catch (Exception e){
+			return null;
+		}
+		
+		return point;
+	}
+	
+	public boolean isPointValid(Point point)
+	{
+		//point liegt im Gameboard
+		//is da Figur vom Spieler
+		return true;
 	}
 	
 	protected Field selectFigure(Scanner in){
