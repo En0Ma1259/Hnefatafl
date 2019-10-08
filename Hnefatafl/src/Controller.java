@@ -8,13 +8,12 @@ public class Controller {
 	/**
 	 * false = black, true = white
 	 */
-	protected boolean turn = false;
+	protected boolean isWhitesTurn = true;
 	
 	/**
 	 * Current round.
 	 */
 	protected int round = 0;
-	protected boolean isWhitesTurn;
 	
 	protected int size;
 	
@@ -111,18 +110,49 @@ public class Controller {
 		System.out.println("Eingabeschema: Zahl/Zahl");
 		System.out.println("Wähle eine Figur aus: ");
 		Point point;
+		Point point2;
+		Field pointToField=null;
+		Field point2ToField=null;
+		boolean isPointValid;
 		do
 		{
 		point = extractPoint(getInput());
+		isPointValid = isPointValid(point);
+		if(!isPointValid){
+			System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
 		}
-		while (point==null);
+		}
+		while ( isPointValid==false);
+		
+		System.out.println("Gebe ein Feld ein wo die Figur hinziehen soll.");
+		do
+		{
+			point2 = extractPoint(getInput());
+			isPointValid = isFieldValid(point2);
+			if ( isPointValid )
+			{
+				pointToField = board.getField(point.x, point.y);
+				point2ToField = board.getField(point2.x, point2.y);
+				isPointValid = possibleMovement(pointToField).contains(point2ToField);
+			}
+			if( !isPointValid ){
+				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+			}
+		}
+		while ( !isPointValid );
+		
+		//Bewege figur
+		point2ToField.setFigure(pointToField.getFigure());
+		pointToField.setFigure(null);
+		
+		this.printGameBoard();
 	}
 	
 	public String getInput()
 	{
 		//macht was mit input
 		//formatiert input-Werte in String "(Zahl/Zahl) der zurückgegeben wird
-
+		
 		return input.nextLine();
 	}
 	
@@ -144,9 +174,45 @@ public class Controller {
 	
 	public boolean isPointValid(Point point)
 	{
+		if (point==null)
+		{
+			return false;
+		}
 		//point liegt im Gameboard
+		int x = point.x, y=point.y;
+		if(x < 0 || y < 0){
+			return false;
+		}
+		if(x >= size || y >= size)
+		{
+			return false;
+		}
 		//is da Figur vom Spieler
+		Figure figure = board.getField(x, y).getFigure();
+		if(figure!=null){
+			if(figure.isWhite == isWhitesTurn){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isFieldValid(Point point)
+	{
+		//point liegt im Gameboard
+		int x = point.x, y=point.y;
 		
+		if (point==null)
+		{
+			return false;
+		}
+		if(x < 0 || y < 0){
+			return false;
+		}
+		if(x >= size || y >= size)
+		{
+			return false;
+		}
 		return true;
 	}
 	
