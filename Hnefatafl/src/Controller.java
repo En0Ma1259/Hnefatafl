@@ -168,7 +168,7 @@ public class Controller {
 				return;
 			}
 			
-			if(board.getField(x, y).getFigure() != null){
+			if(board.getField(x, y).getFigure() == null){
 				return;
 			}
 			if(board.getField(x, y).getFigure().isWhite == field.getFigure().isWhite){
