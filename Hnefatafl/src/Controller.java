@@ -109,6 +109,7 @@ public class Controller {
 	
 	public void movement2()
 	{
+		System.out.println("Eingabeschema: Zahl/Zahl");
 		System.out.println("Wähle eine Figur aus: ");
 		Point point;
 		do
