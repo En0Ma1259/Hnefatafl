@@ -147,6 +147,7 @@ public class Controller {
 	{
 		//point liegt im Gameboard
 		//is da Figur vom Spieler
+		
 		return true;
 	}
 	
