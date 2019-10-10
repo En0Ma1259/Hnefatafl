@@ -26,6 +26,7 @@ public class Controller {
 	public void generateBoard(int size){
 		this.size = size;
 		board = new GameBoard(size);
+		
 		printGameBoard();
 		movement();
 	}
@@ -155,25 +156,40 @@ public class Controller {
 		}
 		
 		if(beatableField.getFigure() instanceof King){
-			// Alle Seiten
+			boolean firstField = checkBeatable(beatableField.x + 1, beatableField.y, beatableField);
+			boolean secoundField = checkBeatable(beatableField.x -1, beatableField.y, beatableField);
+			boolean thirdField = checkBeatable(beatableField.x, beatableField.y + 1, beatableField);
+			boolean fouthField = checkBeatable(beatableField.x, beatableField.y - 1, beatableField);
+			if(firstField && secoundField && thirdField && fouthField){
+				beatableField.setFigure(null);
+			}
 		}else{	
-			int x = (beatableField.x - field.x == 0)? field.x : beatableField.x + (beatableField.x - field.x);
-			int y = (beatableField.y - field.y == 0)? field.y : beatableField.y + (beatableField.y - field.y);
+			int x = 2 * beatableField.x - field.x;
+			int y = 2 * beatableField.y - field.y;
 			
-			if(board.getField(x, y) == null){
-				return;
-			}
-			
-			if(board.getField(x, y) == null){
-				return;
-			}
-			
-			if(board.getField(x, y).getFigure() == null){
-				return;
-			}
-			if(board.getField(x, y).getFigure().isWhite == field.getFigure().isWhite){
+			if(checkBeatable(x,y, beatableField)){
 				beatableField.setFigure(null);
 			}
 		}
+	}
+	
+	protected boolean checkBeatable(int x, int y, Field beatableField) {
+		if(board.getField(x, y) == null){
+			return false;
+		}
+		
+		if(board.getField(x, y).getType() == Field.Types.SPEZIAL){
+			return true;
+		}
+		
+		if(board.getField(x, y).getFigure() == null){
+			return false;	
+		}
+		
+		if(board.getField(x, y).getFigure().isWhite != beatableField.getFigure().isWhite){
+			return true;
+		}
+		
+		return false;
 	}
 }
