@@ -111,8 +111,8 @@ public class Controller {
 		System.out.println("Wähle eine Figur aus: ");
 		Point point;
 		Point point2;
-		Field pointToField=null;
-		Field point2ToField=null;
+		Field origin=null;
+		Field destination=null;
 		boolean isPointValid;
 		do
 		{
@@ -131,9 +131,9 @@ public class Controller {
 			isPointValid = isFieldValid(point2);
 			if ( isPointValid )
 			{
-				pointToField = board.getField(point.x, point.y);
-				point2ToField = board.getField(point2.x, point2.y);
-				isPointValid = possibleMovement(pointToField).contains(point2ToField);
+				origin = board.getField(point.x, point.y);
+				destination = board.getField(point2.x, point2.y);
+				isPointValid = possibleMovement(origin).contains(destination);
 			}
 			if( !isPointValid ){
 				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
@@ -142,8 +142,8 @@ public class Controller {
 		while ( !isPointValid );
 		
 		//Bewege figur
-		point2ToField.setFigure(pointToField.getFigure());
-		pointToField.setFigure(null);
+		destination.setFigure(origin.getFigure());
+		origin.setFigure(null);
 		
 		this.printGameBoard();
 	}
