@@ -24,6 +24,10 @@ public class Field {
 		this.type = type; 
 	}
 	
+	public Types getType(){
+		return type; 
+	}
+	
 	public boolean isSet(){
 		return this.object != null;
 	}
