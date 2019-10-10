@@ -32,6 +32,10 @@ public class Field {
 		this.object = figure;
 	}
 	
+	public Types getType(){
+		return this.type;
+	}
+	
 	public Figure getFigure(){
 		return this.object;
 	}

@@ -61,24 +61,31 @@ public class Controller {
 		for(int i=0;i<size;++i){
 			System.out.print(i+"\t");
 			for(int j=0;j<size;++j){
-				if ( board.getField(i, j).getFigure()!=null )
+				if ( board.getField(i, j).getType()==Field.Types.NORMAL)
 				{
-					if ( board.getField(i, j).getFigure() instanceof King )
+					if ( board.getField(i, j).getFigure()!=null )
 					{
-						System.out.print("K\t");
+						if ( board.getField(i, j).getFigure() instanceof King )
+						{
+							System.out.print("K\t");
+						}
+						if ( board.getField(i, j).getFigure().isWhite==true
+							&& !(board.getField(i, j).getFigure() instanceof King) )
+						{
+							System.out.print("W\t");
+						}
+						if ( board.getField(i, j).getFigure().isWhite==false )
+						{
+							System.out.print("B\t");
+						}
 					}
-					if ( board.getField(i, j).getFigure().isWhite==true
-						&& !(board.getField(i, j).getFigure() instanceof King) )
-					{
-						System.out.print("W\t");
-					}
-					if ( board.getField(i, j).getFigure().isWhite==false )
-					{
-						System.out.print("B\t");
+					else {
+						System.out.print("\t");
 					}
 				}
-				else {
-					System.out.print("\t");
+				else	//getType()==Field.Types.SPEZIAL
+				{
+					System.out.print("S\t");
 				}
 			}
 			System.out.print("\n");
@@ -116,11 +123,11 @@ public class Controller {
 		boolean isPointValid;
 		do
 		{
-		point = extractPoint(getInput());
-		isPointValid = isPointValid(point);
-		if(!isPointValid){
-			System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
-		}
+			point = extractPoint(getInput());
+			isPointValid = isPointValid(point);
+			if(!isPointValid){
+				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+			}
 		}
 		while ( isPointValid==false);
 		
@@ -141,7 +148,7 @@ public class Controller {
 		}
 		while ( !isPointValid );
 		
-		//Bewege figur
+		//Bewege Figur
 		destination.setFigure(origin.getFigure());
 		origin.setFigure(null);
 		
