@@ -19,6 +19,7 @@ public class GameBoard {
 	}
 	
 	public Field getField(int x, int y){
+<<<<<<< HEAD
 		if(y < 0 || board.length < y){
 			return null;
 		}
@@ -26,6 +27,8 @@ public class GameBoard {
 			return null;
 		}
 		
+=======
+>>>>>>> branch 'improveMovement' of https://github.com/En0Ma1259/Hnefatafl.git
 		return board[y][x];
 	}
 	
