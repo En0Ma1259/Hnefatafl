@@ -24,16 +24,16 @@ public class Field {
 		this.type = type; 
 	}
 	
-	public Types getType(){
-		return type; 
-	}
-	
 	public boolean isSet(){
 		return this.object != null;
 	}
 	
 	public void setFigure(Figure figure){
 		this.object = figure;
+	}
+	
+	public Types getType(){
+		return this.type;
 	}
 	
 	public Figure getFigure(){

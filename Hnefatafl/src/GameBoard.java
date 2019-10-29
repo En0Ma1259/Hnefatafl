@@ -16,7 +16,6 @@ public class GameBoard {
 				}
 			}
 		}
-		setFigures(size);
 	}
 	
 	public Field getField(int x, int y){
@@ -26,22 +25,7 @@ public class GameBoard {
 		if(x < 0 || board[y].length < x){
 			return null;
 		}
-		
 		return board[y][x];
-	}
-	
-	protected void setFigures(int size){
-		FigureLayout.type[][] field =FigureLayout.field5x5;
-		for(int i=0;i<size;++i){
-			for(int j=0;j<size;++j){
-				switch(field[i][j]){
-					case NONE: board[i][j].setFigure(null); break;
-					case WHITE: board[i][j].setFigure(new Figure(true));break;
-					case BLACK: board[i][j].setFigure(new Figure(false));break;
-				}
-			}
-		}
-		board[size/2][size/2].setFigure(new King());
 	}
 	
 	
