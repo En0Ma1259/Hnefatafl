@@ -133,7 +133,7 @@ public class Controller {
 				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
 			}
 		}
-		while ( isPointValid==false);
+		while (isPointValid == false);
 		
 		System.out.println("Gebe ein Feld ein wo die Figur hinziehen soll.");
 		do
@@ -155,6 +155,7 @@ public class Controller {
 		//Bewege Figur
 		destination.setFigure(origin.getFigure());
 		origin.setFigure(null);
+		this.isWhitesTurn |= true;
 		
 		this.printGameBoard();
 	}
@@ -185,22 +186,14 @@ public class Controller {
 	
 	public boolean isPointValid(Point point)
 	{
-		if (point==null)
-		{
+		Field field = board.getField(point.x, point.y);
+		if(field == null){
 			return false;
 		}
-		//point liegt im Gameboard
-		int x = point.x, y=point.y;
-		if(x < 0 || y < 0){
-			return false;
-		}
-		if(x >= size || y >= size)
-		{
-			return false;
-		}
+		
 		//is da Figur vom Spieler
-		Figure figure = board.getField(x, y).getFigure();
-		if(figure!=null){
+		Figure figure = field.getFigure();
+		if(figure != null){
 			if(figure.isWhite == isWhitesTurn){
 				return true;
 			}
@@ -210,18 +203,13 @@ public class Controller {
 	
 	public boolean isFieldValid(Point point)
 	{
-		//point liegt im Gameboard
-		int x = point.x, y=point.y;
+		Field field = this.board.getField(point.x, point.y);
+		if(field == null){
+			return false;
+		}
 		
-		if (point==null)
-		{
-			return false;
-		}
-		if(x < 0 || y < 0){
-			return false;
-		}
-		if(x >= size || y >= size)
-		{
+		Figure figure = field.getFigure();
+		if(figure != null){
 			return false;
 		}
 		return true;
