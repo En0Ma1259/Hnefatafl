@@ -64,10 +64,6 @@ public class Controller {
 				{
 					if ( board.getField(i, j).getFigure()!=null )
 					{
-						if ( board.getField(i, j).getFigure() instanceof King )
-						{
-							System.out.print("K\t");
-						}
 						if ( board.getField(i, j).getFigure().isWhite==true
 							&& !(board.getField(i, j).getFigure() instanceof King) )
 						{
@@ -84,12 +80,20 @@ public class Controller {
 				}
 				else	//getType()==Field.Types.SPEZIAL
 				{
-					System.out.print("S\t");
+					if ( board.getField(i, j).getFigure() instanceof King )
+					{
+						System.out.print("K\t");
+					}
+					else {
+						System.out.print("S\t");
+					}
 				}
 			}
 			System.out.print("\n");
 		}
 		System.out.println("");
+		System.out.println( board.getField(size/2, size/2).getFigure() );
+		System.out.println( board.getField(size/2, size/2).getFigure().isWhite );
 	}
 	
 	public void movement(){
