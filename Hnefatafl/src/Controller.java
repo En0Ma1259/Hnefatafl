@@ -49,7 +49,7 @@ public class Controller {
 	}
 	
 	public void printGameBoard() {
-		System.out.println("Ausgabe:");
+		/*System.out.println("Ausgabe:");
 		System.out.print("\t");
 		for (int c=0; c<size; c++)
 		{
@@ -72,6 +72,10 @@ public class Controller {
 						{
 							System.out.print("B\t");
 						}
+						if ( board.getField(i, j).getFigure() instanceof King )
+						{
+							System.out.print("K\t");
+						}
 					}
 					else {
 						System.out.print("\t");
@@ -90,9 +94,9 @@ public class Controller {
 			}
 			System.out.print("\n");
 		}
-		System.out.println("");
-		System.out.println( board.getField(size/2, size/2).getFigure() );
-		System.out.println( board.getField(size/2, size/2).getFigure().isWhite );
+		System.out.println("");*/
+		GameBoardGUI game = new GameBoardGUI(size);
+		game.show();
 	}
 	
 	public void movement(){
@@ -142,8 +146,8 @@ public class Controller {
 			isPointValid = isFieldValid(point2);
 			if ( isPointValid )
 			{
-				origin = board.getField(point.x, point.y);
-				destination = board.getField(point2.x, point2.y);
+				origin = board.getField(point.y, point.x);
+				destination = board.getField(point2.y, point2.x);
 				isPointValid = possibleMovement(origin).contains(destination);
 			}
 			if( !isPointValid ){

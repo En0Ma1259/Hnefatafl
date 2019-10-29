@@ -7,6 +7,10 @@ public class Main {
 		controller.printGameBoard();
 		
 		controller.movement2();
+
+		controller.movement2();
+
+		controller.movement2();
 	}
 
 }
