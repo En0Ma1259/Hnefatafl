@@ -47,12 +47,6 @@ public class Controller {
 			}
 		}
 	}
-<<<<<<< HEAD
-		
-=======
-	
-	
->>>>>>> branch 'improveMovement' of https://github.com/En0Ma1259/Hnefatafl.git
 	
 	public void printGameBoard() {
 		System.out.println("Ausgabe:");
@@ -233,7 +227,6 @@ public class Controller {
 		return true;
 	}
 	
-	public void movement2()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
 		System.out.println("Wähle eine Figur aus: ");
@@ -274,74 +267,6 @@ public class Controller {
 		origin.setFigure(null);
 		
 		this.printGameBoard();
-	}
-	
-	public String getInput()
-	{
-		//macht was mit input
-		//formatiert input-Werte in String "(Zahl/Zahl) der zurückgegeben wird
-		
-		return input.nextLine();
-	}
-	
-	public Point extractPoint(String input) {
-		int positionSlash = input.indexOf("/");
-		Point point;
-		try {
-		String Zeile = input.substring(0, positionSlash);
-		String Spalte = input.substring(positionSlash+1, input.length());
-		
-		point = new Point(Integer.parseInt(Zeile), Integer.parseInt(Spalte));
-		}
-		catch (Exception e){
-			return null;
-		}
-		
-		return point;
-	}
-	
-	public boolean isPointValid(Point point)
-	{
-		if (point==null)
-		{
-			return false;
-		}
-		//point liegt im Gameboard
-		int x = point.x, y=point.y;
-		if(x < 0 || y < 0){
-			return false;
-		}
-		if(x >= size || y >= size)
-		{
-			return false;
-		}
-		//is da Figur vom Spieler
-		Figure figure = board.getField(x, y).getFigure();
-		if(figure!=null){
-			if(figure.isWhite == isWhitesTurn){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean isFieldValid(Point point)
-	{
-		//point liegt im Gameboard
-		int x = point.x, y=point.y;
-		
-		if (point==null)
-		{
-			return false;
-		}
-		if(x < 0 || y < 0){
-			return false;
-		}
-		if(x >= size || y >= size)
-		{
-			return false;
-		}
-		return true;
 	}
 	
 	protected Field selectFigure(Scanner in){
