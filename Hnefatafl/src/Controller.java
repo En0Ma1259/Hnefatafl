@@ -227,48 +227,6 @@ public class Controller {
 		return true;
 	}
 	
-	{
-		System.out.println("Eingabeschema: Zahl/Zahl");
-		System.out.println("Wähle eine Figur aus: ");
-		Point point;
-		Point point2;
-		Field origin=null;
-		Field destination=null;
-		boolean isPointValid;
-		do
-		{
-			point = extractPoint(getInput());
-			isPointValid = isPointValid(point);
-			if(!isPointValid){
-				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
-			}
-		}
-		while ( isPointValid==false);
-		
-		System.out.println("Gebe ein Feld ein wo die Figur hinziehen soll.");
-		do
-		{
-			point2 = extractPoint(getInput());
-			isPointValid = isFieldValid(point2);
-			if ( isPointValid )
-			{
-				origin = board.getField(point.x, point.y);
-				destination = board.getField(point2.x, point2.y);
-				isPointValid = possibleMovement(origin).contains(destination);
-			}
-			if( !isPointValid ){
-				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
-			}
-		}
-		while ( !isPointValid );
-		
-		//Bewege Figur
-		destination.setFigure(origin.getFigure());
-		origin.setFigure(null);
-		
-		this.printGameBoard();
-	}
-	
 	protected Field selectFigure(Scanner in){
 		
 		Field field = null;
