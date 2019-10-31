@@ -243,44 +243,43 @@ public class Controller {
 		
 		// X Values
 		// 0 is here Field x variable
-		for(int i = field.x; i >= 0; i--){
+		for(int i = field.x-1; i >= 0; i--){
 			possibleField = board.getField(i, field.y);
 			if(checkField(field, possibleField)){
 				possibleFields.add(possibleField);				
-			}
-			else {
+			}else{
 				break;
 			}
+
 		}
-		for(int i = 0; i < size; i++){
+		for(int i = field.x+1; i < size; i++){
 			possibleField = board.getField(i, field.y);
 			if(checkField(field, possibleField)){
 				possibleFields.add(possibleField);				
-			}
-			else {
+			}else{
 				break;
 			}
+
 		}
 		
 		// Y Values
 		// 0 is here Field y variable
-		for(int i = /* 0 to change */0; i >= 0; i--){
+		for(int i = field.y-1; i >= 0; i--){
 			possibleField = board.getField(field.x, i);
 			if(checkField(field, possibleField)){
 				possibleFields.add(possibleField);				
-			}
-			else {
+			}else{
 				break;
 			}
 		}
-		for(int i = 0; i < size; i++){
+		for(int i = field.y+1; i < size; i++){
 			possibleField = board.getField(field.x, i);
 			if(checkField(field, possibleField)){
 				possibleFields.add(possibleField);				
-			}
-			else {
+			}else{
 				break;
 			}
+
 		}
 		return possibleFields;
 	}

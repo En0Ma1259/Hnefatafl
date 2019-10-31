@@ -11,6 +11,8 @@ public class Main {
 		controller.movement2();
 
 		controller.movement2();
+
+		controller.movement2();
 	}
 
 }
