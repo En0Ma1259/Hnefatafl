@@ -49,6 +49,13 @@ public class Controller {
 	}
 	
 	public void printGameBoard() {
+		String turn = ""; 
+		if(this.isWhitesTurn){
+			turn = "Weiß";
+		}else{
+			turn = "Schwarz";
+		}
+		System.out.println(turn + " am Zug");
 		System.out.println("Ausgabe:");
 		System.out.print("\t");
 		for (int c=0; c<size; c++)
@@ -90,33 +97,9 @@ public class Controller {
 			}
 			System.out.print("\n");
 		}
-		System.out.println("");
-		System.out.println( board.getField(size/2, size/2).getFigure() );
-		System.out.println( board.getField(size/2, size/2).getFigure().isWhite );
 	}
 	
-	public void movement(){
-		Scanner in = new Scanner(System.in);
-		Field selectedField = this.selectFigure(in);
-		List<Field> possibleFields = this.possibleMovement(selectedField);
-		
-		if(selectedField.isSet() && !possibleFields.isEmpty()){
-			Field destinationField = this.selectFigure(in);
-			
-			if(possibleFields.contains(destinationField)){
-				destinationField.setFigure(selectedField.getFigure());
-				selectedField.setFigure(null);
-
-		    	beatFigures(destinationField);
-			}
-		}else{
-			this.movement();
-		}
-
-    	in.close();
-	}
-	
-	public void movement2()
+	public void movement()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
 		System.out.println("Wähle eine Figur aus: ");
@@ -124,6 +107,8 @@ public class Controller {
 		Point point2;
 		Field origin=null;
 		Field destination=null;
+		List<Field> possibleMovement;
+		
 		boolean isPointValid;
 		do
 		{
@@ -131,6 +116,12 @@ public class Controller {
 			isPointValid = isPointValid(point);
 			if(!isPointValid){
 				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+			}
+			origin = board.getField(point.x, point.y);
+			possibleMovement = possibleMovement(origin);
+			if(possibleMovement.isEmpty()){
+				System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswählen");
+				isPointValid = false;
 			}
 		}
 		while (isPointValid == false);
@@ -142,9 +133,8 @@ public class Controller {
 			isPointValid = isFieldValid(point2);
 			if ( isPointValid )
 			{
-				origin = board.getField(point.x, point.y);
 				destination = board.getField(point2.x, point2.y);
-				isPointValid = possibleMovement(origin).contains(destination);
+				isPointValid = possibleMovement.contains(destination);
 			}
 			if( !isPointValid ){
 				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
@@ -155,9 +145,12 @@ public class Controller {
 		//Bewege Figur
 		destination.setFigure(origin.getFigure());
 		origin.setFigure(null);
-		this.isWhitesTurn |= true;
+		beatFigures(destination);
+		this.isWhitesTurn = !this.isWhitesTurn;
 		
 		this.printGameBoard();
+		System.out.print("--------------------------");
+		this.movement();
 	}
 	
 	public String getInput()
@@ -172,10 +165,10 @@ public class Controller {
 		int positionSlash = input.indexOf("/");
 		Point point;
 		try {
-		String Zeile = input.substring(0, positionSlash);
-		String Spalte = input.substring(positionSlash+1, input.length());
-		
-		point = new Point(Integer.parseInt(Zeile), Integer.parseInt(Spalte));
+			String Zeile = input.substring(0, positionSlash);
+			String Spalte = input.substring(positionSlash+1, input.length());
+			
+			point = new Point(Integer.parseInt(Zeile), Integer.parseInt(Spalte));
 		}
 		catch (Exception e){
 			return null;
@@ -191,7 +184,6 @@ public class Controller {
 			return false;
 		}
 		
-		//is da Figur vom Spieler
 		Figure figure = field.getFigure();
 		if(figure != null){
 			if(figure.isWhite == isWhitesTurn){
