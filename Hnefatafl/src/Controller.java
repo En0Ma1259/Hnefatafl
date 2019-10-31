@@ -31,25 +31,13 @@ public class Controller {
 		this.boardPlan = boardPlan;
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
-		setFigures();
+		board.setFigures(boardPlan);
 	}
 	
-	protected void setFigures(){
-		int size = boardPlan.length;
-		for(int i=0;i<size;++i){
-			for(int j=0;j<size;++j){
-				switch(boardPlan[i][j]){
-					case NONE: board.getField(i, j).setFigure(null); break;
-					case WHITE: board.getField(i, j).setFigure(new Figure(true));break;
-					case BLACK: board.getField(i, j).setFigure(new Figure(false));break;
-					case KING: board.getField(i, j).setFigure(new King());break;
-				}
-			}
-		}
-	}
+	
 	
 	public void printGameBoard() {
-		/*System.out.println("Ausgabe:");
+		System.out.println("Ausgabe:");
 		System.out.print("\t");
 		for (int c=0; c<size; c++)
 		{
@@ -94,7 +82,7 @@ public class Controller {
 			}
 			System.out.print("\n");
 		}
-		System.out.println("");*/
+		System.out.println("");
 		GameBoardGUI game = new GameBoardGUI(size);
 		game.show();
 	}
