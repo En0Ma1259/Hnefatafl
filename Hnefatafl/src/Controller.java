@@ -248,11 +248,17 @@ public class Controller {
 			if(checkField(field, possibleField)){
 				possibleFields.add(possibleField);				
 			}
+			else {
+				break;
+			}
 		}
 		for(int i = 0; i < size; i++){
 			possibleField = board.getField(i, field.y);
 			if(checkField(field, possibleField)){
 				possibleFields.add(possibleField);				
+			}
+			else {
+				break;
 			}
 		}
 		
@@ -263,11 +269,17 @@ public class Controller {
 			if(checkField(field, possibleField)){
 				possibleFields.add(possibleField);				
 			}
+			else {
+				break;
+			}
 		}
 		for(int i = 0; i < size; i++){
 			possibleField = board.getField(field.x, i);
 			if(checkField(field, possibleField)){
 				possibleFields.add(possibleField);				
+			}
+			else {
+				break;
 			}
 		}
 		return possibleFields;
