@@ -177,6 +177,7 @@ public class Controller {
 	
 	public boolean isPointValid(Point point)
 	{
+		//point ist (nicht) null
 		if (point==null)
 		{
 			return false;
@@ -202,13 +203,13 @@ public class Controller {
 	
 	public boolean isFieldValid(Point point)
 	{
-		//point liegt im Gameboard
-		int x = point.x, y=point.y;
-		
+		//point ist (nicht) null
 		if (point==null)
 		{
 			return false;
 		}
+		//point liegt im Gameboard
+		int x = point.x, y=point.y;
 		if(x < 0 || y < 0){
 			return false;
 		}
@@ -236,25 +237,25 @@ public class Controller {
 	/**
 	 * @param positionX
 	 */
-	public List<Field> possibleMovement(Field field){
+	public List<Field> possibleMovement(Field origin){
 		Field possibleField;
 		List<Field> possibleFields = new ArrayList<>();
 		
 		
 		// X Values
 		// 0 is here Field x variable
-		for(int i = field.x-1; i >= 0; i--){
-			possibleField = board.getField(i, field.y);
-			if(checkField(field, possibleField)){
+		for(int i = origin.x-1; i >= 0; i--){
+			possibleField = board.getField(i, origin.y);
+			if(checkField(origin, possibleField)){
 				possibleFields.add(possibleField);				
 			}else{
 				break;
 			}
 
 		}
-		for(int i = field.x+1; i < size; i++){
-			possibleField = board.getField(i, field.y);
-			if(checkField(field, possibleField)){
+		for(int i = origin.x+1; i < size; i++){
+			possibleField = board.getField(i, origin.y);
+			if(checkField(origin, possibleField)){
 				possibleFields.add(possibleField);				
 			}else{
 				break;
@@ -264,17 +265,17 @@ public class Controller {
 		
 		// Y Values
 		// 0 is here Field y variable
-		for(int i = field.y-1; i >= 0; i--){
-			possibleField = board.getField(field.x, i);
-			if(checkField(field, possibleField)){
+		for(int i = origin.y-1; i >= 0; i--){
+			possibleField = board.getField(origin.x, i);
+			if(checkField(origin, possibleField)){
 				possibleFields.add(possibleField);				
 			}else{
 				break;
 			}
 		}
-		for(int i = field.y+1; i < size; i++){
-			possibleField = board.getField(field.x, i);
-			if(checkField(field, possibleField)){
+		for(int i = origin.y+1; i < size; i++){
+			possibleField = board.getField(origin.x, i);
+			if(checkField(origin, possibleField)){
 				possibleFields.add(possibleField);				
 			}else{
 				break;
@@ -285,7 +286,10 @@ public class Controller {
 	}
 	
 	protected boolean checkField(Field field,Field possibleField) {
-		return !(field == possibleField || possibleField.type == Field.Types.SPEZIAL || possibleField.isSet());
+		if(field.getFigure() instanceof King){
+			return !possibleField.isSet();
+		}
+		return !(possibleField.type == Field.Types.SPEZIAL || possibleField.isSet());
 	}
 	
 	protected void beatFigures(Field field){
