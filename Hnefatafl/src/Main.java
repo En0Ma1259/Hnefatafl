@@ -6,7 +6,7 @@ public class Main {
 		controller.generateBoard(FigureLayout.fieldNormal);
 		controller.printGameBoard();
 		
-		controller.movement();
+		controller.start();
 	}
 
 }

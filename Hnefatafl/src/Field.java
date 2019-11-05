@@ -9,6 +9,8 @@ public class Field {
 	
 	protected Figure object;
 	
+	protected boolean corner = false;
+	
 	// need to be protected
 	public int x;
 	
@@ -18,6 +20,12 @@ public class Field {
 	public Field(int x, int y){
 		this.x = x;
 		this.y = y;
+	}
+	
+	public Field(int x, int y, boolean corner){
+		this.x = x;
+		this.y = y;
+		this.corner = corner;
 	}
 	
 	public void setType(Types type){
@@ -38,5 +46,9 @@ public class Field {
 	
 	public Figure getFigure(){
 		return this.object;
+	}
+	
+	public boolean isConer(){
+		return this.corner;
 	}
 }

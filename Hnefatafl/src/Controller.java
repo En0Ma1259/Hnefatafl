@@ -8,7 +8,7 @@ public class Controller {
 	/**
 	 * false = black, true = white
 	 */
-	protected boolean isWhitesTurn = true;
+	protected boolean isWhitesTurn = false;
 	
 	/**
 	 * Current round.
@@ -16,6 +16,8 @@ public class Controller {
 	protected int round = 0;
 	
 	protected int size;
+	
+	protected boolean end;
 	
 	protected GameBoard board; 
 	protected FigureLayout.t[][] boardPlan;
@@ -26,12 +28,17 @@ public class Controller {
 	 * 
 	 * @param size
 	 */
-
 	public void generateBoard(FigureLayout.t[][] boardPlan){
 		this.boardPlan = boardPlan;
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
 		setFigures();
+	}
+	
+	public void start(){
+		do {
+			this.movement();			
+		}while (this.end != true);
 	}
 	
 	protected void setFigures(){
@@ -49,7 +56,7 @@ public class Controller {
 	}
 	
 	public void printGameBoard() {
-		String turn = ""; 
+		String turn = "";
 		if(this.isWhitesTurn){
 			turn = "Weiﬂ";
 		}else{
@@ -145,12 +152,15 @@ public class Controller {
 		//Bewege Figur
 		destination.setFigure(origin.getFigure());
 		origin.setFigure(null);
-		beatFigures(destination);
-		this.isWhitesTurn = !this.isWhitesTurn;
+		
+		if(destination.getFigure() instanceof King && destination.isConer()){
+			this.end = true;
+		}else {
+			beatFigures(destination);
+			this.isWhitesTurn = !this.isWhitesTurn;
+		}
 		
 		this.printGameBoard();
-		System.out.print("--------------------------");
-		this.movement();
 	}
 	
 	public String getInput()
@@ -288,6 +298,7 @@ public class Controller {
 			boolean fouthField = checkBeatable(beatableField.x, beatableField.y - 1, beatableField);
 			if(firstField && secoundField && thirdField && fouthField){
 				beatableField.setFigure(null);
+				this.end = true;
 			}
 		}else{	
 			int x = 2 * beatableField.x - field.x;
