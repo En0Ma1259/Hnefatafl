@@ -32,33 +32,19 @@ public class Controller {
 		this.boardPlan = boardPlan;
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
-		setFigures();
+		board.setFigures(boardPlan);
 	}
-	
+
 	public void start(){
 		do {
 			this.movement();			
 		}while (this.end != true);
 	}
 	
-	protected void setFigures(){
-		int size = boardPlan.length;
-		for(int i=0;i<size;++i){
-			for(int j=0;j<size;++j){
-				switch(boardPlan[i][j]){
-					case NONE: board.getField(i, j).setFigure(null); break;
-					case WHITE: board.getField(i, j).setFigure(new Figure(true));break;
-					case BLACK: board.getField(i, j).setFigure(new Figure(false));break;
-					case KING: board.getField(i, j).setFigure(new King());break;
-				}
-			}
-		}
-	}
-	
 	public void printGameBoard() {
 		String turn = "";
 		if(this.isWhitesTurn){
-			turn = "Weiß";
+			turn = "WeiÃŸ";
 		}else{
 			turn = "Schwarz";
 		}
@@ -86,6 +72,10 @@ public class Controller {
 						{
 							System.out.print("B\t");
 						}
+						if ( board.getField(i, j).getFigure() instanceof King )
+						{
+							System.out.print("K\t");
+						}
 					}
 					else {
 						System.out.print("\t");
@@ -104,12 +94,16 @@ public class Controller {
 			}
 			System.out.print("\n");
 		}
+
+		System.out.println("");
+		GameBoardGUI game = new GameBoardGUI(size);
+		game.show();
 	}
-	
+
 	public void movement()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
-		System.out.println("Wähle eine Figur aus: ");
+		System.out.println("WÃ¤hle eine Figur aus: ");
 		Point point;
 		Point point2;
 		Field origin=null;
@@ -122,12 +116,12 @@ public class Controller {
 			point = extractPoint(getInput());
 			isPointValid = isPointValid(point);
 			if(!isPointValid){
-				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht gÃ¼ltig, bitte nochmal eingeben:");
 			}
 			origin = board.getField(point.x, point.y);
 			possibleMovement = possibleMovement(origin);
 			if(possibleMovement.isEmpty()){
-				System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswählen");
+				System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswÃ¤hlen");
 				isPointValid = false;
 			}
 		}
@@ -144,7 +138,7 @@ public class Controller {
 				isPointValid = possibleMovement.contains(destination);
 			}
 			if( !isPointValid ){
-				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht gÃ¼ltig, bitte nochmal eingeben:");
 			}
 		}
 		while ( !isPointValid );
@@ -166,7 +160,7 @@ public class Controller {
 	public String getInput()
 	{
 		//macht was mit input
-		//formatiert input-Werte in String "(Zahl/Zahl) der zurückgegeben wird
+		//formatiert input-Werte in String "(Zahl/Zahl) der zurÃ¼ckgegeben wird
 		
 		return input.nextLine();
 	}
@@ -234,45 +228,59 @@ public class Controller {
 	/**
 	 * @param positionX
 	 */
-	public List<Field> possibleMovement(Field field){
+	public List<Field> possibleMovement(Field origin){
 		Field possibleField;
 		List<Field> possibleFields = new ArrayList<>();
 		
 		
 		// X Values
 		// 0 is here Field x variable
-		for(int i = field.x; i >= 0; i--){
-			possibleField = board.getField(i, field.y);
-			if(checkField(field, possibleField)){
+		for(int i = origin.x-1; i >= 0; i--){
+			possibleField = board.getField(i, origin.y);
+			if(checkField(origin, possibleField)){
 				possibleFields.add(possibleField);				
+			}else{
+				break;
 			}
+
 		}
-		for(int i = 0; i < size; i++){
-			possibleField = board.getField(i, field.y);
-			if(checkField(field, possibleField)){
+		for(int i = origin.x+1; i < size; i++){
+			possibleField = board.getField(i, origin.y);
+			if(checkField(origin, possibleField)){
 				possibleFields.add(possibleField);				
+			}else{
+				break;
 			}
+
 		}
 		
 		// Y Values
 		// 0 is here Field y variable
-		for(int i = /* 0 to change */0; i >= 0; i--){
-			possibleField = board.getField(field.x, i);
-			if(checkField(field, possibleField)){
+		for(int i = origin.y-1; i >= 0; i--){
+			possibleField = board.getField(origin.x, i);
+			if(checkField(origin, possibleField)){
 				possibleFields.add(possibleField);				
+			}else{
+				break;
 			}
 		}
-		for(int i = 0; i < size; i++){
-			possibleField = board.getField(field.x, i);
-			if(checkField(field, possibleField)){
+		for(int i = origin.y+1; i < size; i++){
+			possibleField = board.getField(origin.x, i);
+			if(checkField(origin, possibleField)){
 				possibleFields.add(possibleField);				
+			}else{
+				break;
 			}
+
 		}
 		return possibleFields;
 	}
 	
 	protected boolean checkField(Field field,Field possibleField) {
-		return !(field == possibleField || possibleField.type == Field.Types.SPEZIAL || possibleField.isSet());
+		if(field.getFigure() instanceof King){
+			return !possibleField.isSet();
+		}
+		return !(possibleField.type == Field.Types.SPEZIAL || possibleField.isSet());
 	}
 	
 	protected void beatFigures(Field field){

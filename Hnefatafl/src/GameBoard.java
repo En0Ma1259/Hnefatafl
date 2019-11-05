@@ -22,6 +22,20 @@ public class GameBoard {
 		}
 	}
 	
+	protected void setFigures(FigureLayout.t[][] boardPlan){
+		int size = boardPlan.length;
+		for(int i=0;i<size;++i){
+			for(int j=0;j<size;++j){
+				switch(boardPlan[i][j]){
+					case NONE: board[i][j].setFigure(null); break;
+					case WHITE: board[i][j].setFigure(new Figure(true));break;
+					case BLACK: board[i][j].setFigure(new Figure(false));break;
+					case KING: board[i][j].setFigure(new King());break;
+				}
+			}
+		}
+	}
+	
 	public Field getField(int x, int y){
 		if(y < 0 || board.length < y){
 			return null;
