@@ -111,6 +111,11 @@ public class Controller {
 		}
 
 		System.out.println("");
+<<<<<<< Upstream, based on origin/master
+=======
+		//GameBoardGUI game = new GameBoardGUI(size);
+		//game.show();
+>>>>>>> 5643ee0 Fixed bug in getField-method
 	}
 
 	public void movement()
@@ -121,7 +126,7 @@ public class Controller {
 		Point point2;
 		Field origin=null;
 		Field destination=null;
-		List<Field> possibleMovement;
+		List<Field> possibleMovement=null;
 		
 		boolean isPointValid;
 		do
@@ -130,12 +135,15 @@ public class Controller {
 			isPointValid = isPointValid(point);
 			if(!isPointValid){
 				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+				
 			}
-			origin = board.getField(point.x, point.y);
-			possibleMovement = possibleMovement(origin);
-			if(possibleMovement.isEmpty()){
-				System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswählen");
-				isPointValid = false;
+			else {
+				origin = board.getField(point.x, point.y);
+				possibleMovement = possibleMovement(origin);
+				if(possibleMovement.isEmpty()){
+					System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswählen");
+					isPointValid = false;
+				}
 			}
 		}
 		while (isPointValid == false);
@@ -182,8 +190,8 @@ public class Controller {
 		int positionSlash = input.indexOf("/");
 		Point point;
 		try {
-			String Zeile = input.substring(0, positionSlash);
-			String Spalte = input.substring(positionSlash+1, input.length());
+			String Spalte = input.substring(0, positionSlash);
+			String Zeile = input.substring(positionSlash+1, input.length());
 			
 			point = new Point(Integer.parseInt(Zeile), Integer.parseInt(Spalte));
 		}
@@ -196,6 +204,10 @@ public class Controller {
 	
 	public boolean isPointValid(Point point)
 	{
+		if ( point == null )
+		{
+			return false;
+		}
 		Field field = board.getField(point.x, point.y);
 		if(field == null){
 			return false;
@@ -212,6 +224,10 @@ public class Controller {
 	
 	public boolean isFieldValid(Point point)
 	{
+		if ( point == null )
+		{
+			return false;
+		}
 		Field field = this.board.getField(point.x, point.y);
 		if(field == null){
 			return false;
