@@ -64,6 +64,7 @@ public class Controller {
 		if(!end){
 			System.out.println(turn + " am Zug");
 		}
+		
 		System.out.println("Ausgabe:");
 		System.out.print("\t");
 		for (int c=0; c<size; c++)
@@ -71,6 +72,7 @@ public class Controller {
 			System.out.print(c+"\t");
 		}
 		System.out.println("");
+		
 		for(int i=0;i<size;++i){
 			System.out.print(i+"\t");
 			for(int j=0;j<size;++j){
@@ -96,7 +98,7 @@ public class Controller {
 						System.out.print("\t");
 					}
 				}
-				else	//getType()==Field.Types.SPEZIAL
+				else
 				{
 					if ( board.getField(i, j).getFigure() instanceof King )
 					{
@@ -129,14 +131,14 @@ public class Controller {
 			point = extractPoint(getInput());
 			isPointValid = isPointValid(point);
 			if(!isPointValid){
-				System.out.print("Der Punkt ist nicht gÃ¼ltig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
 				
 			}
 			else {
 				origin = board.getField(point.x, point.y);
 				possibleMovement = possibleMovement(origin);
 				if(possibleMovement.isEmpty()){
-					System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswÃ¤hlen");
+					System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswählen");
 					isPointValid = false;
 				}
 			}
@@ -257,7 +259,6 @@ public class Controller {
 		Field possibleField;
 		List<Field> possibleFields = new ArrayList<>();
 		
-		
 		// X Values
 		// 0 is here Field x variable
 		for(int i = origin.x-1; i >= 0; i--){
@@ -267,8 +268,8 @@ public class Controller {
 			}else{
 				break;
 			}
-
 		}
+		
 		for(int i = origin.x+1; i < size; i++){
 			possibleField = board.getField(i, origin.y);
 			if(checkField(origin, possibleField)){
@@ -276,7 +277,6 @@ public class Controller {
 			}else{
 				break;
 			}
-
 		}
 		
 		// Y Values
@@ -329,6 +329,7 @@ public class Controller {
 			boolean secoundField = checkBeatable(beatableField.x -1, beatableField.y, beatableField);
 			boolean thirdField = checkBeatable(beatableField.x, beatableField.y + 1, beatableField);
 			boolean fouthField = checkBeatable(beatableField.x, beatableField.y - 1, beatableField);
+			
 			if(firstField && secoundField && thirdField && fouthField){
 				beatableField.setFigure(null);
 				this.end = true;
@@ -370,6 +371,7 @@ public class Controller {
 	public Field getMovementFieldTwo(){
 		return this.currentFieldTwo;
 	}
+	
 	public List<Field> getPossibleMovement(){
 		return this.possibleMovement;
 	}
@@ -377,6 +379,7 @@ public class Controller {
 	public void setMovementFieldOne(String input){
 		Point point = extractPoint(input);
 		boolean isPointValid = isPointValid(point);
+		
 		if(isPointValid){
 		    this.currentFieldOne = board.getField(point.x, point.y);
 			this.possibleMovement = possibleMovement(this.currentFieldOne);
@@ -386,6 +389,7 @@ public class Controller {
 	public void setMovementFieldTwo(String input){
 		Point point = extractPoint(getInput());
 		boolean isPointValid = isFieldValid(point);
+		
 		if ( isPointValid )
 		{
 			Field destination = board.getField(point.x, point.y);
