@@ -1,4 +1,5 @@
 import java.awt.Point;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,6 +48,7 @@ public class Controller {
 			this.movement();			
 		}while (this.end != true);
 		
+<<<<<<< Upstream, based on origin/master
 		
 		if(this.isWhitesTurn){
 			winner = "Weiß" + winner;
@@ -54,6 +56,8 @@ public class Controller {
 			winner = "Schwarz" + winner;
 		}
 		System.out.println(winner);
+=======
+>>>>>>> 44bd22f Linked commits.
 	}
 	
 	public void printGameBoard() {
@@ -63,7 +67,9 @@ public class Controller {
 		}else{
 			turn = "Schwarz";
 		}
-		System.out.println(turn + " am Zug");
+		if(!end){
+			System.out.println(turn + " am Zug");
+		}
 		System.out.println("Ausgabe:");
 		System.out.print("\t");
 		for (int c=0; c<size; c++)
@@ -112,14 +118,24 @@ public class Controller {
 
 		System.out.println("");
 <<<<<<< Upstream, based on origin/master
+<<<<<<< Upstream, based on origin/master
 =======
 		//GameBoardGUI game = new GameBoardGUI(size);
 		//game.show();
 >>>>>>> 5643ee0 Fixed bug in getField-method
+=======
+		/*GameBoardGUI game = new GameBoardGUI(size);
+		game.show();*/
+>>>>>>> 44bd22f Linked commits.
 	}
 
 	public void movement()
 	{
+		/*try{
+			Runtime.getRuntime().exec("cls");
+		}catch(Exception e){
+			
+		}*/
 		System.out.println("Eingabeschema: Zahl/Zahl");
 		System.out.println("Wähle eine Figur aus: ");
 		Point point;
@@ -172,9 +188,10 @@ public class Controller {
 			this.end = true;
 		}else {
 			beatFigures(destination);
-			this.isWhitesTurn = !this.isWhitesTurn;
+			if(end){
+				this.isWhitesTurn = !this.isWhitesTurn;
+			}
 		}
-		
 		this.printGameBoard();
 	}
 	
