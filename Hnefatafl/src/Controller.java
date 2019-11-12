@@ -1,5 +1,4 @@
 import java.awt.Point;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -48,16 +47,12 @@ public class Controller {
 			this.movement();			
 		}while (this.end != true);
 		
-<<<<<<< Upstream, based on origin/master
-		
 		if(this.isWhitesTurn){
 			winner = "Weiß" + winner;
 		}else{
 			winner = "Schwarz" + winner;
 		}
 		System.out.println(winner);
-=======
->>>>>>> 44bd22f Linked commits.
 	}
 	
 	public void printGameBoard() {
@@ -117,25 +112,10 @@ public class Controller {
 		}
 
 		System.out.println("");
-<<<<<<< Upstream, based on origin/master
-<<<<<<< Upstream, based on origin/master
-=======
-		//GameBoardGUI game = new GameBoardGUI(size);
-		//game.show();
->>>>>>> 5643ee0 Fixed bug in getField-method
-=======
-		/*GameBoardGUI game = new GameBoardGUI(size);
-		game.show();*/
->>>>>>> 44bd22f Linked commits.
 	}
 
 	public void movement()
 	{
-		/*try{
-			Runtime.getRuntime().exec("cls");
-		}catch(Exception e){
-			
-		}*/
 		System.out.println("Eingabeschema: Zahl/Zahl");
 		System.out.println("Wähle eine Figur aus: ");
 		Point point;
