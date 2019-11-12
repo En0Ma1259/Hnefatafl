@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.ObjectInputStream.GetField;
 
 import javax.swing.*;
 
@@ -11,7 +12,7 @@ public class GameBoardGUI extends JFrame{
 	JPanel fotter;
 	JFrame jframe;
 	static Dimension dim;
-	public GameBoardGUI(int size) 
+	public GameBoardGUI(int size, GameBoard board1) 
 	{ 		
 		Container cp = getContentPane();
 		setTitle("Hnefatafl");
@@ -49,7 +50,24 @@ public class GameBoardGUI extends JFrame{
 						System.out.println(((JButton) e.getSource()).getName());						
 					}
 				});
+				
+				if( board1.getField(i,j).getFigure()!=null ) {
+					if(board1.getField(i,j).getFigure() instanceof King) {
+						button.setEnabled(false);
+						button.setIcon(defaultIcon);
+					}
+					else { //instanceof != King
+						if( board1.getField(i,j).getFigure().isWhite==true ) {
+							button.setEnabled(false);	
+						}
+						else //isWhite==false
+						{
+							button.setEnabled(false);	
+						}
+					}
+				}
 				board.add(button);
+				
 			}
 		}
 		cp.add(board);
@@ -77,13 +95,6 @@ public class GameBoardGUI extends JFrame{
 		fotter.add(button);
 		cp.add(fotter);
 		
-	}
-	public static void main (String [] args) 
-	{ 
-		size = 11;
-		GameBoardGUI gameboard = new GameBoardGUI(size); 
-		gameboard.pack(); 
-		gameboard.setVisible(true);
-	}	
+	}		
 }
 

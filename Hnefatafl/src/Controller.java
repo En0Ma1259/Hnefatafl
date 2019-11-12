@@ -49,7 +49,7 @@ public class Controller {
 		
 		
 		if(this.isWhitesTurn){
-			winner = "Weiß" + winner;
+			winner = "Weiï¿½" + winner;
 		}else{
 			winner = "Schwarz" + winner;
 		}
@@ -59,7 +59,7 @@ public class Controller {
 	public void printGameBoard() {
 		String turn = "";
 		if(this.isWhitesTurn){
-			turn = "Weiß";
+			turn = "Weiï¿½";
 		}else{
 			turn = "Schwarz";
 		}
@@ -70,6 +70,7 @@ public class Controller {
 		{
 			System.out.print(c+"\t");
 		}
+    
 		System.out.println("");
 		for(int i=0;i<size;++i){
 			System.out.print(i+"\t");
@@ -116,7 +117,7 @@ public class Controller {
 	public void movement()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
-		System.out.println("Wähle eine Figur aus: ");
+		System.out.println("Wï¿½hle eine Figur aus: ");
 		Point point;
 		Point point2;
 		Field origin=null;
@@ -151,7 +152,7 @@ public class Controller {
 				isPointValid = possibleMovement.contains(destination);
 			}
 			if( !isPointValid ){
-				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht gï¿½ltig, bitte nochmal eingeben:");
 			}
 		}
 		while ( !isPointValid );
