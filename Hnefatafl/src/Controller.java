@@ -23,6 +23,10 @@ public class Controller {
 	protected FigureLayout.t[][] boardPlan;
 	protected Scanner input = new Scanner(System.in);
 	
+	protected Field currentFieldOne;
+	protected Field currentFieldTwo;
+	protected List<Field> possibleMovement;
+	
 	/**
 	 * Gernerate game board (from FigureLayout).
 	 * 
@@ -33,18 +37,29 @@ public class Controller {
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
 		board.setFigures(boardPlan);
+		board.getField(1, 0).setFigure(new King());
 	}
 
 	public void start(){
+		String winner = " hat gewonnen.";
+		
 		do {
 			this.movement();			
 		}while (this.end != true);
+		
+		
+		if(this.isWhitesTurn){
+			winner = "Weiﬂ" + winner;
+		}else{
+			winner = "Schwarz" + winner;
+		}
+		System.out.println(winner);
 	}
 	
 	public void printGameBoard() {
 		String turn = "";
 		if(this.isWhitesTurn){
-			turn = "Wei√ü";
+			turn = "Weiﬂ";
 		}else{
 			turn = "Schwarz";
 		}
@@ -96,14 +111,12 @@ public class Controller {
 		}
 
 		System.out.println("");
-		GameBoardGUI game = new GameBoardGUI(size);
-		game.show();
 	}
 
 	public void movement()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
-		System.out.println("W√§hle eine Figur aus: ");
+		System.out.println("W‰hle eine Figur aus: ");
 		Point point;
 		Point point2;
 		Field origin=null;
@@ -138,7 +151,7 @@ public class Controller {
 				isPointValid = possibleMovement.contains(destination);
 			}
 			if( !isPointValid ){
-				System.out.print("Der Punkt ist nicht g√ºltig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht g¸ltig, bitte nochmal eingeben:");
 			}
 		}
 		while ( !isPointValid );
@@ -336,5 +349,56 @@ public class Controller {
 		}
 		
 		return false;
+	}
+	
+	public Field getMovementFieldOne(){
+		return this.currentFieldOne;
+	}
+	
+	public Field getMovementFieldTwo(){
+		return this.currentFieldTwo;
+	}
+	public List<Field> getPossibleMovement(){
+		return this.possibleMovement;
+	}
+	
+	public void setMovementFieldOne(String input){
+		Point point = extractPoint(input);
+		boolean isPointValid = isPointValid(point);
+		if(isPointValid){
+		    this.currentFieldOne = board.getField(point.x, point.y);
+			this.possibleMovement = possibleMovement(this.currentFieldOne);
+		}
+	}
+	
+	public void setMovementFieldTwo(String input){
+		Point point = extractPoint(getInput());
+		boolean isPointValid = isFieldValid(point);
+		if ( isPointValid )
+		{
+			Field destination = board.getField(point.x, point.y);
+			if(this.possibleMovement.contains(destination)){
+				this.currentFieldTwo  = destination;
+			}
+		}
+	}
+	
+	public void movementGUI() {
+		if(this.currentFieldOne == null || this.currentFieldTwo == null){
+			return;
+		}
+		
+		//Bewege Figur
+		this.currentFieldTwo.setFigure(this.currentFieldOne.getFigure());
+		this.currentFieldOne.setFigure(null);
+		
+		if(this.currentFieldTwo.getFigure() instanceof King && this.currentFieldTwo.isConer()){
+			this.end = true;
+		}else {
+			beatFigures(this.currentFieldTwo);
+			this.isWhitesTurn = !this.isWhitesTurn;
+		}
+		
+		this.currentFieldOne = this.currentFieldTwo = null;
 	}
 }
