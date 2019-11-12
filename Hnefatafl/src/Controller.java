@@ -37,7 +37,6 @@ public class Controller {
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
 		board.setFigures(boardPlan);
-		board.getField(1, 0).setFigure(new King());
 	}
 
 	public void start(){
