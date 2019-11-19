@@ -40,7 +40,7 @@ public class Controller {
 		board.setFigures(boardPlan);
 	}
 
-	public void start(){
+	/*public void start(){
 		String winner = " hat gewonnen.";
 		
 		do {
@@ -54,7 +54,7 @@ public class Controller {
 		}
 
 		System.out.println(winner);
-	}
+	}*/
 	
 	public void printGameBoard() {
 		String turn = "";
@@ -122,7 +122,7 @@ public class Controller {
 		game.setVisible(true);
 	}
 	
-	public void movement()
+	/*public void movement()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
 		System.out.println("Wähle eine Figur aus: ");
@@ -181,7 +181,7 @@ public class Controller {
 			}
 		}
 		this.printGameBoard();
-	}
+	}*/
 	
 	public String getInput()
 	{
@@ -393,7 +393,7 @@ public class Controller {
 	}
 	
 	public void setMovementFieldTwo(String input){
-		Point point = extractPoint(getInput());
+		Point point = extractPoint(input);
 		boolean isPointValid = isFieldValid(point);
 		if ( isPointValid )
 		{
@@ -417,10 +417,16 @@ public class Controller {
 			this.end = true;
 		}else {
 			beatFigures(this.currentFieldTwo);
-			this.isWhitesTurn = !this.isWhitesTurn;
+			if(!end){
+				this.isWhitesTurn = !this.isWhitesTurn;
+			}
 		}
 		
 		this.currentFieldOne = this.currentFieldTwo = null;
 		this.possibleMovement.clear();
+	}
+	
+	public boolean isEnd(){
+		return this.end;
 	}
 }

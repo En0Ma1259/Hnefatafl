@@ -46,11 +46,19 @@ public class GameBoardGUI extends JFrame{
 		JLabel turn = new JLabel();
 		if(isWhitesTurn == true)
 		{
-			turn.setText("Weiﬂ ist am Zug");
+			turn.setText("Weiﬂ");
 		}
 		else 
 		{
-			turn.setText("Schwarz ist am Zug");
+			turn.setText("Schwarz");
+		}
+		if (controller.isEnd())
+		{
+			turn.setText(turn.getText() + " hat gewonnen");
+		}
+		else
+		{
+			turn.setText(turn.getText() + " ist am Zug");
 		}
 		turn.setName("Zug");
 		header.add(turn);
@@ -146,10 +154,15 @@ public class GameBoardGUI extends JFrame{
 						button.setEnabled(false);
 					}
 				}
+				if (controller.isEnd())
+				{
+					button.setEnabled(false);
+				}
 				board.add(button);
 				
 			}
 		}
+		
 		cp.add(board);
 		
 		fotter = new JPanel();
