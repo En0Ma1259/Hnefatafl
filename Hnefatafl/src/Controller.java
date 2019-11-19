@@ -26,6 +26,7 @@ public class Controller {
 	protected Field currentFieldOne;
 	protected Field currentFieldTwo;
 	protected List<Field> possibleMovement;
+	GameBoardGUI game = new GameBoardGUI();
 	
 	/**
 	 * Gernerate game board (from FigureLayout).
@@ -43,7 +44,7 @@ public class Controller {
 		String winner = " hat gewonnen.";
 		
 		do {
-			this.movement();			
+			this.movement();
 		}while (this.end != true);
 		
 		if(this.isWhitesTurn){
@@ -51,6 +52,7 @@ public class Controller {
 		}else{
 			winner = "Schwarz" + winner;
 		}
+
 		System.out.println(winner);
 	}
 	
@@ -113,6 +115,13 @@ public class Controller {
 		System.out.println("");
 	}
 
+	public void printGameBoardGUI() 
+	{
+		game.setNewBoard(this, size, board, this.isWhitesTurn);
+		game.pack();
+		game.setVisible(true);
+	}
+	
 	public void movement()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
@@ -412,5 +421,6 @@ public class Controller {
 		}
 		
 		this.currentFieldOne = this.currentFieldTwo = null;
+		this.possibleMovement.clear();
 	}
 }

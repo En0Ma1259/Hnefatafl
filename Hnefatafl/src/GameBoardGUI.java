@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
-
+import java.util.List;
 import javax.swing.*;
 
 public class GameBoardGUI extends JFrame{
@@ -10,46 +10,144 @@ public class GameBoardGUI extends JFrame{
 	JPanel board;
 	JPanel fotter;
 	JFrame jframe;
+	String img;
+	public String position;
 	static Dimension dim;
-	public GameBoardGUI(int size) 
+	protected Controller controller;
+	protected List<Field> possibleMovement;
+	
+	public GameBoardGUI() 
 	{ 		
+		
+	}
+	
+	public void setNewBoard(Controller controller, int size, GameBoard gboard, boolean isWhitesTurn)
+	{
+		this.controller = controller;
 		Container cp = getContentPane();
-		setTitle("Hnefatafl");
+		cp.removeAll();
+		Field test = controller.getMovementFieldOne();
+		List<Field> list = controller.getPossibleMovement();
+		String string = "";
+		if(test != null){ 
+			string = "" + test.x + test.y;
+			if(!list.isEmpty()){
+				string += " nicht leer";
+			}
+		}
+		setTitle("Hnefatafl" + string);
+		
 		dim = new Dimension(50 * size,50 * size);
 		Dimension sd = Toolkit.getDefaultToolkit().getScreenSize();
 		super.setLocation(sd.width/2 - dim.width/2,sd.height/2 - (dim.height+100)/2);
 		cp.setLayout(new BoxLayout(cp,BoxLayout.Y_AXIS)); 
 		
 		header = new JPanel(); 
-		JLabel weiﬂ = new JLabel("Weiﬂ");
-		weiﬂ.setName("weiﬂ");
-		header.add(weiﬂ);
-		JLabel schwarz = new JLabel("Schwarz");
-		schwarz.setName("schwarz");
-		schwarz.setForeground(Color.DARK_GRAY);
-		header.add(schwarz);
+		JLabel turn = new JLabel();
+		if(isWhitesTurn == true)
+		{
+			turn.setText("Weiﬂ ist am Zug");
+		}
+		else 
+		{
+			turn.setText("Schwarz ist am Zug");
+		}
+		turn.setName("Zug");
+		header.add(turn);
 		
 		cp.add(header);
 		
 		board = new JPanel();
 		board.setMinimumSize(dim);
 		board.setPreferredSize(dim);
+		
 		board.setLayout(new GridLayout(size , size));
-		for (int i = 0;i<size;i++)
+		for (int j = 0;j<size;j++)
 		{
-			for (int j = 0;j<size;j++)
+			for (int i = 0;i<size;i++)
 			{
 				button = new JButton();
-				button.setName(""+i+","+j);
+				button.setName(""+j+"/"+i);
+				possibleMovement = controller.getPossibleMovement();
 				button.addActionListener(new ActionListener() 
 				{					
 					@Override
 					public void actionPerformed(ActionEvent e) 
-					{
-						System.out.println(((JButton) e.getSource()).getName());						
+					{		
+						possibleMovement = controller.getPossibleMovement();
+						position = ((JButton) e.getSource()).getName();	
+						if (possibleMovement == null || possibleMovement.isEmpty())
+						{
+							position = ((JButton) e.getSource()).getName();	
+							controller.extractPoint(position);
+							controller.setMovementFieldOne(position);
+						}
+						else
+						{
+							controller.setMovementFieldTwo(position);
+							controller.movementGUI();
+						}
+						controller.printGameBoardGUI();
 					}
 				});
+				button.setEnabled(false);
+				if( gboard.getField(i,j).getFigure()!=null ) 
+				{
+					if(gboard.getField(i,j).getFigure() instanceof King) 
+					{
+						if(isWhitesTurn == true)
+						{
+							button.setEnabled(true);
+						}
+						else 
+						{
+							button.setEnabled(false);
+						}
+							
+						button.setText("K");
+					}
+					else 
+					{ //instanceof != King
+						if( gboard.getField(i,j).getFigure().isWhite==true ) 
+						{
+							if(isWhitesTurn == true)
+							{
+								button.setEnabled(true);
+							}
+							else 
+							{
+								button.setEnabled(false);
+							}						
+							button.setText("W");
+						}
+						else //isWhite==false
+						{
+							if(isWhitesTurn == false)
+							{
+								button.setEnabled(true);
+							}
+							else 
+							{
+								button.setEnabled(false);
+							}
+							button.setText("S");
+						}
+					}
+				}
+					
+				if(possibleMovement != null && possibleMovement.isEmpty() == false)
+				{
+					if(possibleMovement.contains(gboard.getField(i, j)))
+					{
+						button.setEnabled(true);
+					}
+					else
+					{
+						button.setEnabled(false);
+					}
+				}
 				board.add(button);
+				
 			}
 		}
 		cp.add(board);
@@ -76,14 +174,5 @@ public class GameBoardGUI extends JFrame{
 		});
 		fotter.add(button);
 		cp.add(fotter);
-		
 	}
-	public static void main (String [] args) 
-	{ 
-		size = 11;
-		GameBoardGUI gameboard = new GameBoardGUI(size); 
-		gameboard.pack(); 
-		gameboard.setVisible(true);
-	}	
 }
-
