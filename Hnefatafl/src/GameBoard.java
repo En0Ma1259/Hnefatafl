@@ -37,10 +37,10 @@ public class GameBoard {
 	}
 	
 	public Field getField(int x, int y){
-		if(y < 0 || board.length < y){
+		if(y < 0 || board.length <= y){
 			return null;
 		}
-		if(x < 0 || board[y].length < x){
+		if(x < 0 || board[y].length <= x){
 			return null;
 		}
 		return board[y][x];
