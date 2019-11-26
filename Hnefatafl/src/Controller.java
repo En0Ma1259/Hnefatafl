@@ -33,7 +33,7 @@ public class Controller {
 	 * 
 	 * @param size
 	 */
-	public void generateBoard(FigureLayout.t[][] boardPlan){
+	public void generateBoard(FigureLayout.t[][] boardPlan){	
 		this.boardPlan = boardPlan;
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
@@ -207,6 +207,12 @@ public class Controller {
 		return point;
 	}
 	
+	public void resetSelection(){
+		possibleMovement=null;
+		currentFieldOne=null;
+		currentFieldTwo=null;
+	}
+	
 	public boolean isPointValid(Point point)
 	{
 		if ( point == null )
@@ -265,7 +271,7 @@ public class Controller {
 	public List<Field> possibleMovement(Field origin){
 		Field possibleField;
 		List<Field> possibleFields = new ArrayList<>();
-		
+		possibleFields.add(origin);
 		
 		// X Values
 		// 0 is here Field x variable
@@ -357,19 +363,15 @@ public class Controller {
 			return false;
 		}
 		
-		if(board.getField(x, y).getType() == Field.Types.SPEZIAL){
-			return true;
-		}
-		
 		if(board.getField(x, y).getFigure() == null){
-			return false;	
+			return board.getField(x, y).getType() == Field.Types.SPEZIAL;	
 		}
 		
-		if(board.getField(x, y).getFigure().isWhite != beatableField.getFigure().isWhite){
-			return true;
+		if(board.getField(x, y).getFigure().isWhite == beatableField.getFigure().isWhite){
+			return false;
 		}
 		
-		return false;
+		return true;
 	}
 	
 	public Field getMovementFieldOne(){
@@ -394,14 +396,8 @@ public class Controller {
 	
 	public void setMovementFieldTwo(String input){
 		Point point = extractPoint(input);
-		boolean isPointValid = isFieldValid(point);
-		if ( isPointValid )
-		{
-			Field destination = board.getField(point.x, point.y);
-			if(this.possibleMovement.contains(destination)){
-				this.currentFieldTwo  = destination;
-			}
-		}
+		Field destination = board.getField(point.x, point.y);
+		this.currentFieldTwo  = destination;
 	}
 	
 	public void movementGUI() {
