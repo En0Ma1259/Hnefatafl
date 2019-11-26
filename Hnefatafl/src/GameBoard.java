@@ -47,7 +47,7 @@ public class GameBoard {
 	}
 	
 	protected boolean isCorner(int x, int y) {
-		if(x == 0 && y == 0 || x == 0 && y == this.size - 1 || x == 0 && y == this.size - 1 || x == this.size - 1 && y == this.size - 1){
+		if(x == 0 && y == 0 || x == 0 && y == this.size - 1 || x == this.size - 1 && y == 0 || x == this.size - 1 && y == this.size - 1){
 			return true;
 		}
 		
