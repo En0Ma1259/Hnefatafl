@@ -70,6 +70,7 @@ public class GameBoardGUI extends JFrame{
 		board.setPreferredSize(dim);
 		
 		board.setLayout(new GridLayout(size , size));
+		
 		for (int j = 0;j<size;j++)
 		{
 			for (int i = 0;i<size;i++)
@@ -96,6 +97,7 @@ public class GameBoardGUI extends JFrame{
 							if(controller.getMovementFieldOne()==controller.getMovementFieldTwo()){
 								controller.resetSelection();
 								controller.printGameBoardGUI();
+								
 							}
 							controller.movementGUI();
 						}
@@ -189,6 +191,7 @@ public class GameBoardGUI extends JFrame{
 				System.exit(0);										
 			}
 		});
+		
 		fotter.add(button);
 		cp.add(fotter);
 		

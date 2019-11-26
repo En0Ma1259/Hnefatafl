@@ -1,4 +1,6 @@
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -26,7 +28,7 @@ public class Controller {
 	protected Field currentFieldOne;
 	protected Field currentFieldTwo;
 	protected List<Field> possibleMovement;
-	GameBoardGUI game = new GameBoardGUI();
+	PeroTimoGUI game;
 	
 	/**
 	 * Gernerate game board (from FigureLayout).
@@ -38,6 +40,8 @@ public class Controller {
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
 		board.setFigures(boardPlan);
+		game = new PeroTimoGUI(this,boardPlan.length);
+		game.SetGui();
 	}
 
 	/*public void start(){
@@ -117,9 +121,8 @@ public class Controller {
 
 	public void printGameBoardGUI() 
 	{
-		game.setNewBoard(this, size, board, this.isWhitesTurn);
-		game.pack();
-		game.setVisible(true);
+		game.SetGui();
+		
 	}
 	
 	/*public void movement()
