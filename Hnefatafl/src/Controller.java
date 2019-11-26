@@ -27,6 +27,7 @@ public class Controller {
 	protected Field currentFieldTwo;
 	protected List<Field> possibleMovement;
 	GameBoardGUI game = new GameBoardGUI();
+	boolean first = true;
 	
 	/**
 	 * Gernerate game board (from FigureLayout).
@@ -34,6 +35,7 @@ public class Controller {
 	 * @param size
 	 */
 	public void generateBoard(FigureLayout.t[][] boardPlan){
+		isWhitesTurn = false;
 		this.boardPlan = boardPlan;
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
