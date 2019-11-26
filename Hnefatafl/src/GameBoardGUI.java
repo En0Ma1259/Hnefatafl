@@ -93,8 +93,6 @@ public class GameBoardGUI extends JFrame{
 						else
 						{
 							controller.setMovementFieldTwo(position);
-							System.out.println(controller.getMovementFieldOne());
-							System.out.println(controller.getMovementFieldTwo());
 							if(controller.getMovementFieldOne()==controller.getMovementFieldTwo()){
 								controller.resetSelection();
 								controller.printGameBoardGUI();
