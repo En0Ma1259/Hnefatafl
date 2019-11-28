@@ -94,7 +94,7 @@ public class GameBoardGUI extends JFrame{
 					public void actionPerformed(ActionEvent e) 
 					{		
 						possibleMovement = controller.getPossibleMovement();
-						position = ((JButton) e.getSource()).getName();	
+						position = ((JButton) e.getSource()).getName();
 						if (possibleMovement == null || possibleMovement.isEmpty())
 						{
 							position = ((JButton) e.getSource()).getName();	
@@ -104,6 +104,10 @@ public class GameBoardGUI extends JFrame{
 						else
 						{
 							controller.setMovementFieldTwo(position);
+							if(controller.getMovementFieldOne()==controller.getMovementFieldTwo()){
+								controller.resetSelection();
+								controller.printGameBoardGUI();
+							}
 							controller.movementGUI();
 						}
 						controller.printGameBoardGUI();
@@ -238,5 +242,7 @@ public class GameBoardGUI extends JFrame{
 		});
 		fotter.add(button);
 		cp.add(fotter);
+		
+		
 	}
 }

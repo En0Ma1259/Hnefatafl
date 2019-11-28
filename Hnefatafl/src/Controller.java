@@ -35,7 +35,6 @@ public class Controller {
 	 * @param size
 	 */
 	public void generateBoard(FigureLayout.t[][] boardPlan){
-		isWhitesTurn = false;
 		this.boardPlan = boardPlan;
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
@@ -50,7 +49,7 @@ public class Controller {
 		}while (this.end != true);
 		
 		if(this.isWhitesTurn){
-			winner = "Wei�" + winner;
+			winner = "Weiß" + winner;
 		}else{
 			winner = "Schwarz" + winner;
 		}
@@ -61,7 +60,7 @@ public class Controller {
 	/*public void printGameBoard() {
 		String turn = "";
 		if(this.isWhitesTurn){
-			turn = "Wei�";
+			turn = "Weiß";
 		}else{
 			turn = "Schwarz";
 		}
@@ -127,7 +126,7 @@ public class Controller {
 	/*public void movement()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
-		System.out.println("W�hle eine Figur aus: ");
+		System.out.println("Wähle eine Figur aus: ");
 		Point point;
 		Point point2;
 		Field origin=null;
@@ -140,14 +139,14 @@ public class Controller {
 			point = extractPoint(getInput());
 			isPointValid = isPointValid(point);
 			if(!isPointValid){
-				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht gÃ¼ltig, bitte nochmal eingeben:");
 				
 			}
 			else {
 				origin = board.getField(point.x, point.y);
 				possibleMovement = possibleMovement(origin);
 				if(possibleMovement.isEmpty()){
-					System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswählen");
+					System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswÃ¤hlen");
 					isPointValid = false;
 				}
 			}
@@ -165,7 +164,7 @@ public class Controller {
 				isPointValid = possibleMovement.contains(destination);
 			}
 			if( !isPointValid ){
-				System.out.print("Der Punkt ist nicht g�ltig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
 			}
 		}
 		while ( !isPointValid );
@@ -188,7 +187,7 @@ public class Controller {
 	public String getInput()
 	{
 		//macht was mit input
-		//formatiert input-Werte in String "(Zahl/Zahl) der zurückgegeben wird
+		//formatiert input-Werte in String "(Zahl/Zahl) der zurÃ¼ckgegeben wird
 		
 		return input.nextLine();
 	}
@@ -207,6 +206,12 @@ public class Controller {
 		}
 		
 		return point;
+	}
+	
+	public void resetSelection(){
+		possibleMovement=null;
+		currentFieldOne=null;
+		currentFieldTwo=null;
 	}
 	
 	public boolean isPointValid(Point point)
@@ -267,7 +272,7 @@ public class Controller {
 	public List<Field> possibleMovement(Field origin){
 		Field possibleField;
 		List<Field> possibleFields = new ArrayList<>();
-		
+		possibleFields.add(origin);
 		
 		// X Values
 		// 0 is here Field x variable
@@ -364,11 +369,11 @@ public class Controller {
 			return board.getField(x, y).getType() == Field.Types.SPEZIAL;	
 		}
 		
-		if(board.getField(x, y).getFigure().isWhite != beatableField.getFigure().isWhite){
-			return true;
+		if(board.getField(x, y).getFigure().isWhite == beatableField.getFigure().isWhite){
+			return false;
 		}
 		
-		return false;
+		return true;
 	}
 	
 	public Field getMovementFieldOne(){
@@ -394,14 +399,8 @@ public class Controller {
 	
 	public void setMovementFieldTwo(String input){
 		Point point = extractPoint(input);
-		boolean isPointValid = isFieldValid(point);
-		if ( isPointValid )
-		{
-			Field destination = board.getField(point.x, point.y);
-			if(this.possibleMovement.contains(destination)){
-				this.currentFieldTwo  = destination;
-			}
-		}
+		Field destination = board.getField(point.x, point.y);
+		this.currentFieldTwo  = destination;
 	}
 	
 	public void movementGUI() {
