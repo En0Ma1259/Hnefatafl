@@ -1,9 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameBoard {
 	
 	protected Field[][] board; 
 	
 	protected int size;
+	
+	protected List<Figure> white = new ArrayList<>();
+	protected List<Figure> black = new ArrayList<>();
 	
 	public GameBoard(int size){
 		this.size = size;
@@ -27,10 +32,20 @@ public class GameBoard {
 		for(int i=0;i<size;++i){
 			for(int j=0;j<size;++j){
 				switch(boardPlan[i][j]){
-					case NONE: board[i][j].setFigure(null); break;
-					case WHITE: board[i][j].setFigure(new Figure(true));break;
-					case BLACK: board[i][j].setFigure(new Figure(false));break;
-					case KING: board[i][j].setFigure(new King());break;
+					case NONE:
+						board[i][j].setFigure(null); 
+						break;
+					case WHITE: 
+						board[i][j].setFigure(new Figure(true));
+						this.white.add(board[i][j].getFigure());
+						break;
+					case BLACK: 
+						board[i][j].setFigure(new Figure(false));
+						this.black.add(board[i][j].getFigure());
+						break;
+					case KING: 
+						board[i][j].setFigure(new King());
+						break;
 				}
 			}
 		}
@@ -53,4 +68,21 @@ public class GameBoard {
 		
 		return false;
 	}
+	
+	public List<Figure> getFigureList(boolean white) {
+		if(white) {
+			return this.white;
+		} else {
+			return this.black;
+		}
+	}
+	
+	public void removeFigure(Field field) {
+		if(field.getFigure().isWhite) {
+			this.white.remove(field.getFigure());
+		} else {
+			this.black.remove(field.getFigure());
+		}
+	}
+	
 }
