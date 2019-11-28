@@ -45,6 +45,7 @@ public class GameBoard {
 						break;
 					case KING: 
 						board[i][j].setFigure(new King());
+						this.white.add(board[i][j].getFigure());
 						break;
 				}
 			}
