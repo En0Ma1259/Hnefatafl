@@ -31,13 +31,20 @@ public class GameBoardGUI extends JFrame{
 	public void setNewBoard(Controller controller, int size, GameBoard gboard, boolean isWhitesTurn)
 	{
 		this.controller = controller;
+		this.controller.calculatePossibleFields();
+		boolean end = controller.isEnd();
+		if(!this.controller.hasPossibleMovement()) {
+			end = true;
+			isWhitesTurn = !isWhitesTurn; 
+		}
+		
 		Container cp = getContentPane();
 		cp.removeAll();
 		setTitle("Hnefatafl");
 		
 		dim = new Dimension(50 * size,50 * size);
 		Dimension sd = Toolkit.getDefaultToolkit().getScreenSize();
-		if (controller.first == true)
+		if (controller.first)
 		{
 			controller.first = false;
 			super.setLocation(sd.width/2 - dim.width/2,sd.height/2 - (dim.height+100)/2);
@@ -46,7 +53,7 @@ public class GameBoardGUI extends JFrame{
 		
 		header = new JPanel(); 
 		JLabel turn = new JLabel();
-		if(isWhitesTurn == true)
+		if(isWhitesTurn)
 		{
 			turn.setText("Weiﬂ");
 		}
@@ -54,7 +61,8 @@ public class GameBoardGUI extends JFrame{
 		{
 			turn.setText("Schwarz");
 		}
-		if (controller.isEnd())
+		
+		if (end)
 		{
 			turn.setText(turn.getText() + " hat gewonnen");
 		}

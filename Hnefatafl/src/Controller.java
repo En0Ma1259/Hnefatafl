@@ -58,7 +58,7 @@ public class Controller {
 		System.out.println(winner);
 	}*/
 	
-	public void printGameBoard() {
+	/*public void printGameBoard() {
 		String turn = "";
 		if(this.isWhitesTurn){
 			turn = "Weiﬂ";
@@ -115,7 +115,7 @@ public class Controller {
 		}
 
 		System.out.println("");
-	}
+	}*/
 
 	public void printGameBoardGUI() 
 	{
@@ -350,6 +350,7 @@ public class Controller {
 			
 			if(checkBeatable(x,y, beatableField)){
 				beatableField.setFigure(null);
+				
 			}
 		}
 	}
@@ -359,12 +360,8 @@ public class Controller {
 			return false;
 		}
 		
-		if(board.getField(x, y).getType() == Field.Types.SPEZIAL){
-			return true;
-		}
-		
 		if(board.getField(x, y).getFigure() == null){
-			return false;	
+			return board.getField(x, y).getType() == Field.Types.SPEZIAL;	
 		}
 		
 		if(board.getField(x, y).getFigure().isWhite != beatableField.getFigure().isWhite){
@@ -390,7 +387,8 @@ public class Controller {
 		boolean isPointValid = isPointValid(point);
 		if(isPointValid){
 		    this.currentFieldOne = board.getField(point.x, point.y);
-			this.possibleMovement = possibleMovement(this.currentFieldOne);
+		    this.possibleMovement = this.currentFieldOne.getFigure().getPossibleFields();
+			//this.possibleMovement = possibleMovement(this.currentFieldOne);
 		}
 	}
 	
@@ -430,5 +428,51 @@ public class Controller {
 	
 	public boolean isEnd(){
 		return this.end;
+	}
+	
+	public void calculatePossibleFields(){
+		List<Figure> list = this.board.getFigureList(this.isWhitesTurn);
+		list.forEach(f -> this.setNewPossibleFields(f));
+	}
+	
+	protected void setNewPossibleFields(Figure figure){
+		Field field = this.searchFigure(figure);
+		if (field != null) {
+			figure.setPossibleFields(this.possibleMovement(field));
+		} else {
+			figure.setPossibleFields(new ArrayList<>());
+		}
+	}
+	
+	protected Field searchFigure(Figure figure) {
+		for(int y = 0; y < size; y++){
+			for(int x = 0; x < size; x++){
+				if(figure == this.board.getField(x, y).getFigure()){
+					return this.board.getField(x, y);
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public boolean hasPossibleMovement() {
+		List<Figure> list = this.board.getFigureList(this.isWhitesTurn);
+		
+		for( Figure k: list ){
+			if(!k.getPossibleFields().isEmpty()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void reset(){
+		this.isWhitesTurn = false;
+		this.round = 0;
+		this.end = false;
+		this.generateBoard(FigureLayout.fieldNormal);	
+		this.printGameBoardGUI();
 	}
 }
