@@ -27,13 +27,14 @@ public class Controller {
 	protected Field currentFieldTwo;
 	protected List<Field> possibleMovement;
 	GameBoardGUI game = new GameBoardGUI();
+	boolean first = true;
 	
 	/**
 	 * Gernerate game board (from FigureLayout).
 	 * 
 	 * @param size
 	 */
-	public void generateBoard(FigureLayout.t[][] boardPlan){	
+	public void generateBoard(FigureLayout.t[][] boardPlan){
 		this.boardPlan = boardPlan;
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
@@ -48,7 +49,7 @@ public class Controller {
 		}while (this.end != true);
 		
 		if(this.isWhitesTurn){
-			winner = "Wei�" + winner;
+			winner = "Weiß" + winner;
 		}else{
 			winner = "Schwarz" + winner;
 		}
@@ -56,10 +57,10 @@ public class Controller {
 		System.out.println(winner);
 	}*/
 	
-	public void printGameBoard() {
+	/*public void printGameBoard() {
 		String turn = "";
 		if(this.isWhitesTurn){
-			turn = "Wei�";
+			turn = "Weiß";
 		}else{
 			turn = "Schwarz";
 		}
@@ -113,7 +114,7 @@ public class Controller {
 		}
 
 		System.out.println("");
-	}
+	}*/
 
 	public void printGameBoardGUI() 
 	{
@@ -125,7 +126,7 @@ public class Controller {
 	/*public void movement()
 	{
 		System.out.println("Eingabeschema: Zahl/Zahl");
-		System.out.println("W�hle eine Figur aus: ");
+		System.out.println("Wähle eine Figur aus: ");
 		Point point;
 		Point point2;
 		Field origin=null;
@@ -138,14 +139,14 @@ public class Controller {
 			point = extractPoint(getInput());
 			isPointValid = isPointValid(point);
 			if(!isPointValid){
-				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht gÃ¼ltig, bitte nochmal eingeben:");
 				
 			}
 			else {
 				origin = board.getField(point.x, point.y);
 				possibleMovement = possibleMovement(origin);
 				if(possibleMovement.isEmpty()){
-					System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswählen");
+					System.out.print("Die Figur kann nicht bewegt werden. Andere Figur auswÃ¤hlen");
 					isPointValid = false;
 				}
 			}
@@ -163,7 +164,7 @@ public class Controller {
 				isPointValid = possibleMovement.contains(destination);
 			}
 			if( !isPointValid ){
-				System.out.print("Der Punkt ist nicht g�ltig, bitte nochmal eingeben:");
+				System.out.print("Der Punkt ist nicht gültig, bitte nochmal eingeben:");
 			}
 		}
 		while ( !isPointValid );
@@ -186,7 +187,7 @@ public class Controller {
 	public String getInput()
 	{
 		//macht was mit input
-		//formatiert input-Werte in String "(Zahl/Zahl) der zurückgegeben wird
+		//formatiert input-Werte in String "(Zahl/Zahl) der zurÃ¼ckgegeben wird
 		
 		return input.nextLine();
 	}
@@ -354,6 +355,7 @@ public class Controller {
 			
 			if(checkBeatable(x,y, beatableField)){
 				beatableField.setFigure(null);
+				
 			}
 		}
 	}
@@ -390,7 +392,8 @@ public class Controller {
 		boolean isPointValid = isPointValid(point);
 		if(isPointValid){
 		    this.currentFieldOne = board.getField(point.x, point.y);
-			this.possibleMovement = possibleMovement(this.currentFieldOne);
+		    this.possibleMovement = this.currentFieldOne.getFigure().getPossibleFields();
+			//this.possibleMovement = possibleMovement(this.currentFieldOne);
 		}
 	}
 	
@@ -424,5 +427,51 @@ public class Controller {
 	
 	public boolean isEnd(){
 		return this.end;
+	}
+	
+	public void calculatePossibleFields(){
+		List<Figure> list = this.board.getFigureList(this.isWhitesTurn);
+		list.forEach(f -> this.setNewPossibleFields(f));
+	}
+	
+	protected void setNewPossibleFields(Figure figure){
+		Field field = this.searchFigure(figure);
+		if (field != null) {
+			figure.setPossibleFields(this.possibleMovement(field));
+		} else {
+			figure.setPossibleFields(new ArrayList<>());
+		}
+	}
+	
+	protected Field searchFigure(Figure figure) {
+		for(int y = 0; y < size; y++){
+			for(int x = 0; x < size; x++){
+				if(figure == this.board.getField(x, y).getFigure()){
+					return this.board.getField(x, y);
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public boolean hasPossibleMovement() {
+		List<Figure> list = this.board.getFigureList(this.isWhitesTurn);
+		
+		for( Figure k: list ){
+			if(!k.getPossibleFields().isEmpty()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void reset(){
+		this.isWhitesTurn = false;
+		this.round = 0;
+		this.end = false;
+		this.generateBoard(FigureLayout.fieldNormal);	
+		this.printGameBoardGUI();
 	}
 }

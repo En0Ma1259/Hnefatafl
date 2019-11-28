@@ -1,20 +1,27 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.*;
 import javax.swing.*;
 
 public class GameBoardGUI extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static int size;
 	JButton button;
 	JPanel header;
 	JPanel board;
 	JPanel fotter;
 	JFrame jframe;
-	String img;
 	public String position;
 	static Dimension dim;
 	protected Controller controller;
 	protected List<Field> possibleMovement;
+	Image img = null;
 	
 	public GameBoardGUI() 
 	{ 		
@@ -24,27 +31,29 @@ public class GameBoardGUI extends JFrame{
 	public void setNewBoard(Controller controller, int size, GameBoard gboard, boolean isWhitesTurn)
 	{
 		this.controller = controller;
+		this.controller.calculatePossibleFields();
+		boolean end = controller.isEnd();
+		if(!this.controller.hasPossibleMovement()) {
+			end = true;
+			isWhitesTurn = !isWhitesTurn; 
+		}
+		
 		Container cp = getContentPane();
 		cp.removeAll();
-		Field test = controller.getMovementFieldOne();
-		List<Field> list = controller.getPossibleMovement();
-		String string = "";
-		if(test != null){ 
-			string = "" + test.x + test.y;
-			if(!list.isEmpty()){
-				string += " nicht leer";
-			}
-		}
-		setTitle("Hnefatafl" + string);
+		setTitle("Hnefatafl");
 		
 		dim = new Dimension(50 * size,50 * size);
 		Dimension sd = Toolkit.getDefaultToolkit().getScreenSize();
-		super.setLocation(sd.width/2 - dim.width/2,sd.height/2 - (dim.height+100)/2);
+		if (controller.first)
+		{
+			controller.first = false;
+			super.setLocation(sd.width/2 - dim.width/2,sd.height/2 - (dim.height+100)/2);
+		}
 		cp.setLayout(new BoxLayout(cp,BoxLayout.Y_AXIS)); 
 		
 		header = new JPanel(); 
 		JLabel turn = new JLabel();
-		if(isWhitesTurn == true)
+		if(isWhitesTurn)
 		{
 			turn.setText("Weiﬂ");
 		}
@@ -52,7 +61,8 @@ public class GameBoardGUI extends JFrame{
 		{
 			turn.setText("Schwarz");
 		}
-		if (controller.isEnd())
+		
+		if (end)
 		{
 			turn.setText(turn.getText() + " hat gewonnen");
 		}
@@ -67,6 +77,7 @@ public class GameBoardGUI extends JFrame{
 		
 		board = new JPanel();
 		board.setMinimumSize(dim);
+		board.setMaximumSize(dim);
 		board.setPreferredSize(dim);
 		
 		board.setLayout(new GridLayout(size , size));
@@ -103,6 +114,21 @@ public class GameBoardGUI extends JFrame{
 					}
 				});
 				button.setEnabled(false);
+				if(gboard.getField(i, j).getType() == Field.Types.SPEZIAL){
+					String path = "";
+					if(gboard.getField(i, j).isConer()){
+						path = "Icons/feld_markiert.jpg";
+					}
+					else {
+						path = "Icons/feld_markiert2.jpg";
+					}
+					try {
+						img = ImageIO.read(getClass().getResource(path));
+						button.setIcon(new ImageIcon(img));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}  
+				}
 				if( gboard.getField(i,j).getFigure()!=null ) 
 				{
 					if(gboard.getField(i,j).getFigure() instanceof King) 
@@ -116,7 +142,13 @@ public class GameBoardGUI extends JFrame{
 							button.setEnabled(false);
 						}
 							
-						button.setText("K");
+						button.setText("");
+						try {
+							img = ImageIO.read(getClass().getResource("Icons/w_koenig.jfif"));
+							button.setIcon(new ImageIcon(img));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 					else 
 					{ //instanceof != King
@@ -130,7 +162,13 @@ public class GameBoardGUI extends JFrame{
 							{
 								button.setEnabled(false);
 							}						
-							button.setText("W");
+							button.setText("");
+							try {
+								img = ImageIO.read(getClass().getResource("Icons/w_bauer.png"));
+								button.setIcon(new ImageIcon(img));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}							
 						}
 						else //isWhite==false
 						{
@@ -142,7 +180,13 @@ public class GameBoardGUI extends JFrame{
 							{
 								button.setEnabled(false);
 							}
-							button.setText("S");
+							button.setText("");
+							try {
+								img = ImageIO.read(getClass().getResource("Icons/s_bauer.png"));
+								button.setIcon(new ImageIcon(img));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}   
 						}
 					}
 				}
@@ -152,6 +196,12 @@ public class GameBoardGUI extends JFrame{
 					if(possibleMovement.contains(gboard.getField(i, j)))
 					{
 						button.setEnabled(true);
+						try {
+							img = ImageIO.read(getClass().getResource("Icons/feld_markiert.jpg"));
+							button.setIcon(new ImageIcon(img));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}    				        
 					}
 					else
 					{
@@ -176,7 +226,8 @@ public class GameBoardGUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				System.out.println("neues Spiel");						
+				controller.generateBoard(FigureLayout.fieldNormal);	
+				controller.printGameBoardGUI();
 			}
 		});
 		fotter.add(button);
