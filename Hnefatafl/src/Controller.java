@@ -459,7 +459,9 @@ public class Controller {
 		List<Figure> list = this.board.getFigureList(this.isWhitesTurn);
 		
 		for( Figure k: list ){
-			if(!k.getPossibleFields().isEmpty()) {
+			// greater 1.
+			if(k.getPossibleFields().size() > 1){
+			//if(!k.getPossibleFields().isEmpty()) {
 				return true;
 			}
 		}
