@@ -55,7 +55,7 @@ public class GameBoardGUI extends JFrame{
 		JLabel turn = new JLabel();
 		if(isWhitesTurn)
 		{
-			turn.setText("Weiß");
+			turn.setText("Weiï¿½");
 		}
 		else 
 		{

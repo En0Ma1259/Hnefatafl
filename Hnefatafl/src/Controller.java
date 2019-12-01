@@ -26,7 +26,7 @@ public class Controller {
 	protected Field currentFieldOne;
 	protected Field currentFieldTwo;
 	protected List<Field> possibleMovement;
-	GameBoardGUI game = new GameBoardGUI();
+	NewGameBoardGUI game;
 	boolean first = true;
 	
 	/**
@@ -39,6 +39,7 @@ public class Controller {
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
 		board.setFigures(boardPlan);
+		game = new NewGameBoardGUI(this);
 	}
 
 	/*public void start(){
@@ -118,9 +119,8 @@ public class Controller {
 
 	public void printGameBoardGUI() 
 	{
-		game.setNewBoard(this, size, board, this.isWhitesTurn);
-		game.pack();
-		game.setVisible(true);
+		game.UpdateGUI();
+		
 	}
 	
 	/*public void movement()
@@ -389,12 +389,10 @@ public class Controller {
 	
 	public void setMovementFieldOne(String input){
 		Point point = extractPoint(input);
-		boolean isPointValid = isPointValid(point);
-		if(isPointValid){
-		    this.currentFieldOne = board.getField(point.x, point.y);
-		    this.possibleMovement = this.currentFieldOne.getFigure().getPossibleFields();
-			//this.possibleMovement = possibleMovement(this.currentFieldOne);
-		}
+		this.currentFieldOne = board.getField(point.x, point.y);
+		//this.possibleMovement = this.currentFieldOne.getFigure().getPossibleFields();
+		this.possibleMovement = possibleMovement(this.currentFieldOne);
+		
 	}
 	
 	public void setMovementFieldTwo(String input){
@@ -403,11 +401,7 @@ public class Controller {
 		this.currentFieldTwo  = destination;
 	}
 	
-	public void movementGUI() {
-		if(this.currentFieldOne == null || this.currentFieldTwo == null){
-			return;
-		}
-		
+	public void movementGUI() {		
 		//Bewege Figur
 		this.currentFieldTwo.setFigure(this.currentFieldOne.getFigure());
 		this.currentFieldOne.setFigure(null);
