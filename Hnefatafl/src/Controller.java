@@ -39,6 +39,8 @@ public class Controller {
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
 		board.setFigures(boardPlan);
+		isWhitesTurn=false;
+		end=false;
 		if(game==null)
 			game = new NewGameBoardGUI(this);
 	}
@@ -273,7 +275,7 @@ public class Controller {
 	public List<Field> possibleMovement(Field origin){
 		Field possibleField;
 		List<Field> possibleFields = new ArrayList<>();
-		
+		possibleFields.add(origin);
 		// X Values
 		// 0 is here Field x variable
 		for(int i = origin.x-1; i >= 0; i--){
