@@ -226,8 +226,7 @@ public class GameBoardGUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				controller.generateBoard(FigureLayout.fieldNormal);	
-				controller.printGameBoardGUI();
+				controller.reset();
 			}
 		});
 		fotter.add(button);
