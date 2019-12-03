@@ -22,9 +22,20 @@ public class GameBoardGUI extends JFrame{
 	protected Controller controller;
 	protected List<Field> possibleMovement;
 	Image img = null;
+	private ImageIcon markiert, markiert2, w_bauer, s_bauer, koenig;
 	
-	public GameBoardGUI() 
+	public GameBoardGUI(Controller con) 
 	{ 		
+		controller=con;
+		try{
+			markiert = new ImageIcon(ImageIO.read(getClass().getResource("Icons/feld_markiert.jpg")));
+			markiert2 = new ImageIcon(ImageIO.read(getClass().getResource("Icons/feld_markiert2.jpg")));
+			w_bauer = new ImageIcon(ImageIO.read(getClass().getResource("Icons/w_bauer.png")));
+			s_bauer = new ImageIcon(ImageIO.read(getClass().getResource("Icons/s_bauer.png")));
+			koenig = new ImageIcon(ImageIO.read(getClass().getResource("Icons/w_koenig.jfif")));
+		}catch(Exception e){
+			
+		}
 		
 	}
 	
@@ -97,7 +108,6 @@ public class GameBoardGUI extends JFrame{
 						position = ((JButton) e.getSource()).getName();
 						if (possibleMovement == null || possibleMovement.isEmpty())
 						{
-							position = ((JButton) e.getSource()).getName();	
 							controller.extractPoint(position);
 							controller.setMovementFieldOne(position);
 						}
@@ -117,17 +127,12 @@ public class GameBoardGUI extends JFrame{
 				if(gboard.getField(i, j).getType() == Field.Types.SPEZIAL){
 					String path = "";
 					if(gboard.getField(i, j).isConer()){
-						path = "Icons/feld_markiert.jpg";
+						button.setIcon(markiert);
 					}
 					else {
-						path = "Icons/feld_markiert2.jpg";
+						button.setIcon(markiert2);
 					}
-					try {
-						img = ImageIO.read(getClass().getResource(path));
-						button.setIcon(new ImageIcon(img));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}  
+					 
 				}
 				if( gboard.getField(i,j).getFigure()!=null ) 
 				{
@@ -141,14 +146,7 @@ public class GameBoardGUI extends JFrame{
 						{
 							button.setEnabled(false);
 						}
-							
-						button.setText("");
-						try {
-							img = ImageIO.read(getClass().getResource("Icons/w_koenig.jfif"));
-							button.setIcon(new ImageIcon(img));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						button.setIcon(koenig);
 					}
 					else 
 					{ //instanceof != King
@@ -162,13 +160,7 @@ public class GameBoardGUI extends JFrame{
 							{
 								button.setEnabled(false);
 							}						
-							button.setText("");
-							try {
-								img = ImageIO.read(getClass().getResource("Icons/w_bauer.png"));
-								button.setIcon(new ImageIcon(img));
-							} catch (IOException e) {
-								e.printStackTrace();
-							}							
+							button.setIcon(w_bauer);							
 						}
 						else //isWhite==false
 						{
@@ -180,13 +172,7 @@ public class GameBoardGUI extends JFrame{
 							{
 								button.setEnabled(false);
 							}
-							button.setText("");
-							try {
-								img = ImageIO.read(getClass().getResource("Icons/s_bauer.png"));
-								button.setIcon(new ImageIcon(img));
-							} catch (IOException e) {
-								e.printStackTrace();
-							}   
+							button.setIcon(s_bauer);   
 						}
 					}
 				}
@@ -196,12 +182,12 @@ public class GameBoardGUI extends JFrame{
 					if(possibleMovement.contains(gboard.getField(i, j)))
 					{
 						button.setEnabled(true);
-						try {
-							img = ImageIO.read(getClass().getResource("Icons/feld_markiert.jpg"));
-							button.setIcon(new ImageIcon(img));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}    				        
+						if(gboard.getField(i, j).equals(controller.currentFieldOne)){
+							
+						}else{
+							button.setIcon(markiert);   
+						}
+										        
 					}
 					else
 					{
