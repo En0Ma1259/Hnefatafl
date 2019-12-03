@@ -26,7 +26,7 @@ public class Controller {
 	protected Field currentFieldOne;
 	protected Field currentFieldTwo;
 	protected List<Field> possibleMovement;
-	GameBoardGUI game = new GameBoardGUI();
+	GameBoardGUI game;;
 	boolean first = true;
 	
 	/**
@@ -39,6 +39,9 @@ public class Controller {
 		size = this.boardPlan.length;
 		board = new GameBoard(size);
 		board.setFigures(boardPlan);
+		if(game==null){
+			game = new GameBoardGUI(this);
+		}
 	}
 
 	/*public void start(){
